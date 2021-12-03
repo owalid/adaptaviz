@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+
+  api:
+    container_name: adaptaviz
+    restart: always
+    build:
+      context: ./backend
+    volumes:
+      - ./backend:/home/api
+    expose:
+      - 5000
+    ports:
+      - 5000:5000
+    command: python3 run.py
+
+  app:
+    build:
+      context: ./frontend
+    volumes:
+      - ./frontend:/home/app
+      - app_node_modules:/home/app/node_modules
+    ports:
+      - 3000:3000
+
+volumes:
+  app_node_modules:
