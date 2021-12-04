@@ -2,18 +2,47 @@
   <v-col cols="12">
     <client-only>
       <l-map
-        style="height: 100vh; width:99vw"
+        style="height: 97vh; width:100%"
         :zoom="zoom"
         :options="mapOptions"
         :center="center"
         @update:zoom="onZoom"
         @update:bounds="(bounds) => $emit('boundUpdated', bounds)"
       >
+        <l-control-zoom position="bottomright"/>
         <l-tile-layer :url="url"></l-tile-layer>
          <l-geo-json
           :geojson="geojson"
           :options="geojsonOptions"
         />
+        <l-control position="topleft">
+          <v-row>
+            <v-btn
+              class="ma-2"
+              :outlined="selectedType !== 'SUN'"
+              small
+              color="black"
+              dark
+              :plain="selectedType !== 'SUN'"
+              @click="selectedType = 'SUN'"
+            >
+              <v-icon small class="mr-2">fa-cloud-rain</v-icon>
+              <span>Stress hydrique</span>
+            </v-btn>
+            <v-btn
+              class="ma-2"
+              :outlined="selectedType !== 'RAIN'"
+              small
+              color="black"
+              dark
+              :plain="selectedType !== 'RAIN'"
+              @click="selectedType = 'RAIN'"
+            >
+              <v-icon small class="mr-2">fa-sun</v-icon>
+              <span>Stress solaire</span>
+            </v-btn>
+          </v-row>
+        </l-control>
       </l-map>
     </client-only>
 	</v-col>
@@ -27,11 +56,13 @@ export default  {
     return {
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       zoom: 2,
+      selectedType: 'RAIN',
       center: [48, -1.219482],
       geojson,
       currentCenter: null,
       mapOptions: {
-        zoomSnap: 0.5
+        zoomSnap: 0.5,
+        zoomControl: false
       },
       geojsonOptions: { // TODO PLUGIN
         style: feature => {
@@ -47,9 +78,17 @@ export default  {
       }
     };
   },
+  watch: {
+    selectedType(newValue) {
+      this.$emit('updateSelectedType', newValue)
+    }
+  },
   methods: {
     onZoom(zoom) {
       console.log("zoom", zoom)
+    },
+    clickHandler () {
+      window.alert('and mischievous')
     },
     getColor(d) {
       return d > 1000 ? '#800026' :

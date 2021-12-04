@@ -12,13 +12,22 @@ export default {
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: "dns-prefetch",
+        href: "//fonts.googleapis.com"
+      },
+      {
+        rel: 'preconnect',
+        href: 'https://fonts.gstatic.com'
+      }
     ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
-    'leaflet/dist/leaflet.css'
+    'leaflet/dist/leaflet.css',
+    '~/assets/typo.scss'
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
@@ -44,8 +53,16 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
+    'nuxt-webfontloader'
   ],
 
+  webfontloader: {
+    google: {
+      families: [
+        'Rajdhani:wght@300;400;500;600&display=swap'
+      ]
+    }
+  },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
 
@@ -58,7 +75,9 @@ export default {
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
+    treeShake: true,
     customVariables: ['~/assets/variables.scss'],
+    defaultAssets: false,
     theme: {
       dark: true,
       themes: {
