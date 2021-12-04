@@ -2,7 +2,7 @@
   <div>
     <v-row>
       <client-only>
-        <pyplot-map />
+        <leaflet-map @boundUpdated="onBoundUpdated" />
       </client-only>
     </v-row>
   </div>
@@ -11,7 +11,18 @@
 export default {
   name: "Home",
   components: {
-    PyplotMap: () => import('~/lazy-components/map/PyplotMap'),
-  }
+    LeafletMap: () => import('~/lazy-components/LeafletMap'),
+  },
+  data() {
+    return {
+      bounds: null
+    }
+  },
+  methods: {
+    onBoundUpdated(bounds) { // todo call api here to update map
+      this.bounds = bounds;
+      console.log("bounds", bounds);
+    }
+  },
 }
 </script>

@@ -7,7 +7,7 @@
         :options="mapOptions"
         :center="center"
         @update:zoom="onZoom"
-        @update:bounds="boundsUpdated"
+        @update:bounds="(bounds) => $emit('boundUpdated', bounds)"
       >
         <l-tile-layer :url="url"></l-tile-layer>
          <l-geo-json
@@ -19,7 +19,7 @@
 	</v-col>
 </template>
 <script>
-import geojson from './data'
+import geojson from './map/map/data'
 
 export default  {
    data () {
@@ -47,9 +47,6 @@ export default  {
     };
   },
   methods: {
-    boundsUpdated(bounds) {
-      console.log("bounds", bounds)
-    },
     onZoom(zoom) {
       console.log("zoom", zoom)
     },
