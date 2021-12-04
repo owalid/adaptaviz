@@ -12,9 +12,7 @@ import Vuetify, {
   VProgressCircular
 } from 'vuetify/lib'
 
-Vue.use(Vuetify)
-
-export default new Vuetify({
+Vue.use(Vuetify, {
   components: {
     VIcon,
     VBtn,
