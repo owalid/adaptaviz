@@ -75,3 +75,54 @@ def score_dep(df_plante, df_meteo,df_loc, horizon, espece, senario):
     score = get_all_scores(df_plante, df_meteo, horizon, espece, senario)
     score = pd.merge(score,df_loc,on='point')
     return score.groupby('dep').agg({'score':"mean"})
+def get_all_scores(climate_df, pheno_df, species, horizon, scenario):
+    total_temp_score = []
+    total_pluv_score = []
+    total_lat = []
+    total_long = []
+    mix_total_score = []
+    name_lst = []
+    climate_metrics = get_climate_metrics(climate_df, horizon, scenario)
+    species_metrics = pheno_df[pheno_df['species'] == species]
+    species_metrics.reset_index(drop=True, inplace=True)
+    temp_opt_min = species_metrics['temp_opt_min'][0]
+    Temp_Opt_Max = species_metrics['Temp_Opt_Max'][0]
+    Temp_Abs_Min = species_metrics['Temp_Abs_Min'][0]
+    Temp_Abs_Max = species_metrics['Temp_Abs_Max'][0]
+    Rain_Opt_min = species_metrics['Rain_Opt_Min'][0]
+    Rain_Opt_Max = species_metrics['Rain_Opt_Max'][0]
+    Rain_Abs_Min = species_metrics['Rain_Abs_Min'][0]
+    Rain_Abs_Max = species_metrics['Rain_Abs_Max'][0]
+    temps_pousse = species_metrics['temps_pousse'][0]
+    unique = climate_metrics.groupby('Point')
+    for name, group in unique:
+        month_score = []
+        #print (f'--NEW : {name}--')
+        long = group['Longitude'].values[0]
+        lat = group['Latitude'].values[0]
+        for idx, row in group.iterrows():
+            T_moy = row['Tmoy']
+            T_min = row['Tmin']
+            T_max = row['Tmax']
+            score = scores_temp(T_moy, T_min, T_max, temp_opt_min, Temp_Opt_Max, Temp_Abs_Min, Temp_Abs_Max, SENSIBILITE)
+            month_score.append(score[0])
+        total_score = Score_Moyglissante_temp(month_score, temps_pousse)
+        period = total_score[1]
+        cumul = group['NORRR']
+        Rain_model = cumul[period:period+temps_pousse].sum()
+        score_pluv = scores_pluv(Rain_model,Rain_Opt_min,Rain_Opt_Max,Rain_Abs_Min,Rain_Abs_Max)
+        #print (total_score[0])
+        #print (score_pluv)
+        mixed_score = total_score[0] * score_pluv
+        total_temp_score.append(total_score[0])
+        total_pluv_score.append(score_pluv)
+        total_lat.append(lat)
+        total_long.append(long)
+        mix_total_score.append(mixed_score)
+        name_lst.append(name)
+    result_dict = {'Point': name_lst, 'Lat':total_lat, 'Long':total_long,
+                   'Temp_score':total_temp_score, 'Pluv_score':total_pluv_score,
+                  'Total_score':mix_total_score}
+    result_df = pd.DataFrame(result_dict)
+    display(result_df.sample(25))
+    return result_df
