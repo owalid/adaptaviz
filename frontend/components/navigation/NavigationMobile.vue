@@ -8,13 +8,15 @@
               <h2>Scénarios</h2>
             </v-row>
             <v-row>
-              <v-col cols="8" align="center" justify="center">
-                <v-select
+              <v-col>
+                <v-slider
                   v-model="payload.previsionYear"
-                  :items="itemsDates"
-                  label="Choisissez une année de prévision"
-                >
-                </v-select>
+                  :tick-labels="itemsDates"
+                  :max="2"
+                  step="1"
+                  ticks="always"
+                  :tick-size="itemsDates.length"
+                ></v-slider>
               </v-col>
             </v-row>
             <v-row>

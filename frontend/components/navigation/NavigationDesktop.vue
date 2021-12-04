@@ -26,25 +26,10 @@
         </v-row>
         <v-container v-if="!miniVariant">
           <v-row>
-            <v-text-field
-              label="Adresse"
-              placeholder="150 rue General de Gaulle"
-              solo
-              rounded
-              outlined
-              small
-              dense
-              single-line
-              light
-              class="shrink"
-            >
-              <template #prepend-inner>
-                <v-icon small class="mr-2">fa-search</v-icon>
-              </template>
-            </v-text-field>
+            <input-address />
           </v-row>
             <v-row>
-              <h2>Scenarios :</h2>
+              <h2>Scenarios</h2>
             </v-row>
             <v-row>
               <v-col cols="12">
@@ -58,25 +43,29 @@
                 ></v-slider>
               </v-col>
             </v-row>
+            <v-row>
+              <v-col cols="8" align="center" justify="center">
+                <v-switch
+                  v-model="payload.anomaly"
+                  x-small
+                  label="Anomalie"
+                >
+                </v-switch>
+              </v-col>
+            </v-row>
           <v-row>
-            <h2>Horizon :</h2>
+            <h2>Horizon</h2>
           </v-row>
           <v-row>
             <v-col cols="12">
-              <!-- <v-select
-                v-model="payload.previsionYear"
-                :items="itemsDates"
-                label="Choisissez une année de prévision"
-              >
-              </v-select> -->
               <v-slider
-                  v-model="payload.previsionYear"
-                  :tick-labels="itemsDates"
-                  :max="2"
-                  step="1"
-                  ticks="always"
-                  :tick-size="itemsDates.length"
-                ></v-slider>
+                v-model="payload.previsionYear"
+                :tick-labels="itemsDates"
+                :max="2"
+                step="1"
+                ticks="always"
+                :tick-size="itemsDates.length"
+              ></v-slider>
             </v-col>
           </v-row>
           <v-row>
@@ -88,9 +77,11 @@
 </template>
 <script>
 import NavigationMixin from '~/mixins/Navigation'
+import InputAddress from '~/components/inputs/InputAddress'
 
 export default {
   name: "NavigationDesktop",
-  mixins: [NavigationMixin]  
+  components: {InputAddress},
+  mixins: [NavigationMixin]
 }
 </script>

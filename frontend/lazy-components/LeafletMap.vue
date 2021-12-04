@@ -19,29 +19,7 @@
             v-if="$vuetify.breakpoint.mdAndDown"
             class="mt-3 ml-1"
           >
-            <v-text-field
-              v-model="address"
-              label="Adresse"
-              placeholder="150 rue General de Gaulle"
-              solo
-              rounded
-              outlined
-              small
-              dense
-              light
-            >
-              <template #prepend-inner>
-                <v-icon small class="mr-2">fa-search</v-icon>
-              </template>
-              <template #append>
-                <v-btn small icon @click="locateOnBrowser">
-                  <v-icon small class="mr-2">fa-location-arrow</v-icon>
-                </v-btn>
-                <v-btn small icon :disabled="!address" @click="getAddress">
-                  <v-icon small class="mr-2">fa-arrow-right</v-icon>
-                </v-btn>
-              </template>
-            </v-text-field>
+            <input-address />
           </v-row>
           <v-row>
             <v-btn
@@ -71,7 +49,7 @@
           </v-row>
             <v-row>
               <v-alert
-                :impactTemp="impactTemp"
+                :impact-temp="impactTemp"
                 class="ma-2"
                 color="black"
                 small
@@ -85,15 +63,16 @@
     </client-only>
 </template>
 <script>
-import axios from 'axios'
 import NavigationMixin from '~/mixins/Navigation'
+import InputAddress from '~/components/inputs/InputAddress'
+
 /*
 This component will send the data to the parent (the index.vue page) which can send the changes and refresh the page
 */
 export default  {
   name: "LeafletMap",
+  components: {InputAddress},
   mixins: [NavigationMixin],
-
   props: {
     geojson: {
       type: Object,
@@ -129,6 +108,14 @@ export default  {
         },
       },
     };
+  },
+  fetch() {
+    this.$nuxt.$on('updateCenterMap', (center) => {
+      this.zoom = 10
+      this.center = []
+      this.center = center
+      this.center.reverse().reverse()
+    })
   },
   computed: {
     impactTempResult() {
@@ -214,35 +201,10 @@ export default  {
       this.$emit('updateSelectedType', newValue)
     }
   },
+  beforeDestroy() {
+    this.$nuxt.$off('updateCenterMap')
+  },
   methods: {
-    async getAddress() {
-      if (this.address) {
-        const res = await axios.get(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(this.address)}&limit=5`)
-        this.zoom = 10
-        this.center = []
-        this.center.push(...(res.data.features[0].geometry.coordinates.map(elmt => parseFloat(elmt).toFixed(6))))
-        this.center.reverse()
-      }
-    },
-    getPositionWithIPAddress() {
-      const vm = this;
-     fetch('https://api.ipregistry.co/?key=tryout')
-      .then(response => response.json())
-      .then((payload) => {
-        vm.center = [payload.location.latitude, payload.location.longitude]
-      });
-    },
-    async locateOnBrowser() {
-      const vm = this
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(({coords}) => {
-          vm.center = [coords.latitude, coords.longitude]
-        }, this.getPositionWithIPAddress);
-      } else {
-        await this.getPositionWithIPAddress()
-      }
-      this.zoom = 10
-    },
     onZoom(zoom) {
       console.log("zoom", zoom)
     },
