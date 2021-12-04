@@ -6,7 +6,7 @@ Created on Sat Dec  4 13:35:37 2021
 """
 import numpy as np
 import pandas as pd
-sensibilite = 1
+SENSIBILITE = 1
 
 def Score_Moyglissante(Score_Mois,temps_pousse):
     """ calcule le max sur la moyenne glissante par rapport au temps de pousse"""
@@ -37,7 +37,7 @@ def scores_min_max(T_min_modele,T_max_modele,sensibilite,Temp_Abs_Min,Temp_Abs_M
     return Score_min_max
 
 def scores_temp(T_moy_modele,T_min_modele,T_max_modele,temp_opt_min,Temp_Opt_Max,Temp_Abs_Min,Temp_Abs_Max):
-    Score_min_max = scores_min_max(T_min_modele,T_max_modele,sensibilite,Temp_Abs_Min,Temp_Abs_Max)
+    Score_min_max = scores_min_max(T_min_modele,T_max_modele,sensibilite=SENSIBILITE,Temp_Abs_Min,Temp_Abs_Max)
     Score = 1
     if T_moy_modele <= temp_opt_min:
         a = ( 1 - 0 )/(temp_opt_min - Temp_Abs_Min) 
@@ -75,6 +75,11 @@ def score_dep(df_plante, df_meteo,df_loc, horizon, espece, senario):
     score = get_all_scores(df_plante, df_meteo, horizon, espece, senario)
     score = pd.merge(score,df_loc,on='point')
     return score.groupby('dep').agg({'score':"mean"})
+
+def get_climate_metrics(climate_df, horizon, scenario):
+    climate_metrics = climate_df[(climate_df['Période'] == horizon) & (climate_df['Contexte'] == scenario)]
+    return climate_metrics
+
 def get_all_scores(climate_df, pheno_df, species, horizon, scenario):
     total_temp_score = []
     total_pluv_score = []
