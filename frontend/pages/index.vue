@@ -8,7 +8,7 @@
   </client-only>
 </template>
 <script>
-import geojson from './data'  // Fake data used to see how map choropleth works
+import geojson from '../data/geojson'  // Fake data used to see how map choropleth works
 
 /*
 This page is the master page, it allows to make the link between the layout form and the map,
