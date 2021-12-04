@@ -96,13 +96,6 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    extend (config, ctx) {
-      if (!ctx.isServer) {
-        config.node = {
-          fs: 'empty'
-        }
-      }
-    },
     transpile: [/^vuetify/],
     extractCSS: true,
     standalone: true,
@@ -135,6 +128,13 @@ export default {
             chunks: 'all',
             enforce: true
           }
+        }
+      }
+    },
+    extend (config, ctx) {
+      if (!ctx.isServer) {
+        config.node = {
+          fs: 'empty'
         }
       }
     }
