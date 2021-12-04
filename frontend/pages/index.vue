@@ -1,23 +1,28 @@
 <template>
-  <v-container>
-    <v-row>
-      <hello-world />
-    </v-row>
+  <div>
     <v-row>
       <client-only>
-        <pyplot-example />
+        <leaflet-map @boundUpdated="onBoundUpdated" />
       </client-only>
     </v-row>
-  </v-container>
+  </div>
 </template>
 <script>
-import HelloWorld from '~/components/HelloWorld'
-
 export default {
   name: "Home",
   components: {
-    PyplotExample: () => import('~/lazy-components/PyplotExample/PyplotExample'),
-    HelloWorld,
-  }
+    LeafletMap: () => import('~/lazy-components/LeafletMap'),
+  },
+  data() {
+    return {
+      bounds: null
+    }
+  },
+  methods: {
+    onBoundUpdated(bounds) { // todo call api here to update map
+      this.bounds = bounds;
+      console.log("bounds", bounds);
+    }
+  },
 }
 </script>

@@ -22,10 +22,12 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/pwa": "^3.3.5",
+    "chroma-js": "^2.1.2",
     "core-js": "^3.15.1",
+    "leaflet": "^1.7.1",
     "nuxt": "^2.15.7",
     "sass-loader": "10.1.1",
-    "vue-plotly": "^1.1.0",
+    "vue2-leaflet": "^2.7.1",
     "vuetify": "^2.5.5"
   },
   "devDependencies": {
