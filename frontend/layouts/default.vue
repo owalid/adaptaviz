@@ -2,11 +2,11 @@
   <v-app dark>
     <template v-if="mounted">
       <navigation-desktop v-if="$vuetify.breakpoint.mdAndUp" />
-      <navigation-mobile v-else />
     </template>
     <v-main>
       <nuxt />
     </v-main>
+    <navigation-mobile v-if="$vuetify.breakpoint.mdAndDown" />
   </v-app>
 </template>
 

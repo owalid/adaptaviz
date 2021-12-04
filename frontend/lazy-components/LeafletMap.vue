@@ -1,8 +1,7 @@
 <template>
-  <v-col cols="12">
     <client-only>
       <l-map
-        style="height: 97vh; width:100%"
+        :style="($vuetify.breakpoint.mdAndUp) ? 'height: 97vh; width:100%' : 'height: 90vh; width:100vw'"
         :zoom="zoom"
         :options="mapOptions"
         :center="center"
@@ -16,6 +15,25 @@
           :options="geojsonOptions"
         />
         <l-control position="topleft">
+          <v-row
+            v-if="$vuetify.breakpoint.mdAndDown"
+            class="mt-3 ml-1"
+          >
+            <v-text-field
+              label="Adresse"
+              placeholder="150 rue General de Gaulle"
+              solo
+              rounded
+              outlined
+              small
+              dense
+              light
+            >
+              <template #prepend-inner>
+                <v-icon small class="mr-2">fa-search</v-icon>
+              </template>
+            </v-text-field>
+          </v-row>
           <v-row>
             <v-btn
               class="ma-2"
@@ -39,7 +57,7 @@
               @click="selectedType = 'RAIN'"
             >
               <v-icon small class="mr-2">fa-sun</v-icon>
-              <span>Stress solaire</span>
+              <span>Stress thermique</span>
             </v-btn>
           </v-row>
             <v-row>
@@ -56,7 +74,6 @@
         </l-control>
       </l-map>
     </client-only>
-	</v-col>
 </template>
 <script>
 import NavigationMixin from '~/mixins/Navigation'
