@@ -3,7 +3,7 @@
     <v-container fluid>
       <v-row fill-height align-center justify-center>
         <leaflet-map
-          :geojson="geojson"
+          :geojson="smallRegions"
           :impact-temp="impactTemp"
           @boundUpdated="onBoundUpdated"
           @updateSelectedType="onSelectedTypeUpdated"
@@ -13,8 +13,7 @@
   </client-only>
 </template>
 <script>
-import geojson from '../data/geojson'  // Fake data used to see how map choropleth works
-
+import smallRegions from '../data/small-regions'
 /*
 This page is the master page, it allows to make the link between the layout form and the map,
 it recovers the changed data and reload the page according to the selected data
@@ -26,7 +25,7 @@ export default {
   },
   data() {
     return {
-      geojson,
+      smallRegions,
       bounds: null,
       previsionYear: null,
       selectedType: null,

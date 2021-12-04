@@ -1,7 +1,7 @@
 <template>
   <v-app dark>
     <template v-if="mounted">
-      <navigation-desktop v-if="$vuetify.breakpoint.mdAndUp" />
+      <navigation-desktop v-if="$vuetify.breakpoint.lgAndUp" />
     </template>
     <v-main>
       <nuxt />

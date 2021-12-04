@@ -36,7 +36,7 @@ export default {
     async getAddress() {
       if (this.address) {
         const res = await axios.get(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(this.address)}&limit=5`)
-        this.$nuxt.$emit('updateCenterMap', ...(res.data.features[0].geometry.coordinates.map(elmt => parseFloat(elmt).toFixed(6))).reverse())
+        this.$nuxt.$emit('updateCenterMap', [...(res.data.features[0].geometry.coordinates.map(elmt => parseFloat(elmt).toFixed(6))).reverse()])
       }
     },
     getPositionWithIPAddress() {

@@ -1,14 +1,14 @@
 <template>
   <div>
-    <v-bottom-sheet v-model="sheet" class="z-index-100">
+    <v-bottom-sheet v-model="sheet" class="z-index-1000">
       <v-sheet max-height="50vh" class="overflow-scroll">
-        <v-container class="ma-2">
+        <v-container  fluid>
           <div v-if="curentSheet === 'SCENARIO'" class="mt-2">
             <v-row>
-              <h2>Scénarios</h2>
+              <h2 class="ma-2">Scénarios</h2>
             </v-row>
-            <v-row>
-              <v-col>
+            <v-row align="center" justify="center">
+              <v-col cols="12">
                 <v-slider
                   v-model="payload.previsionYear"
                   :tick-labels="itemsDates"
@@ -20,7 +20,7 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col cols="8" align="center" justify="center">
+              <v-col>
                 <v-switch
                   v-model="payload.anomaly"
                   x-small
@@ -136,7 +136,7 @@ export default {
 }
 </script>
 <style>
-.z-index-100 {
+.z-index-1000 {
   z-index: 1000;
 }
 .sheet-bottom {

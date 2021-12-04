@@ -1,19 +1,18 @@
 <template>
     <client-only>
       <l-map
-        :style="($vuetify.breakpoint.mdAndUp) ? 'height: 97vh; width:100%' : 'height: 90vh; width:100vw'"
+        :style="($vuetify.breakpoint.lgAndUp) ? 'height: 97vh; width:100%' : 'height: 90vh; width:100vw'"
         :zoom="zoom"
         :options="mapOptions"
         :center="center"
-        @update:zoom="onZoom"
         @update:bounds="(bounds) => $emit('boundUpdated', bounds)"
       >
         <l-control-zoom position="bottomright"/>
         <l-tile-layer :url="url"></l-tile-layer>
          <l-geo-json
           :geojson="geojson"
-          :options="geojsonOptions"
         />
+          <!-- :options="geojsonOptions" -->
         <l-control position="topleft">
           <v-row
             v-if="$vuetify.breakpoint.mdAndDown"
@@ -65,7 +64,6 @@
 <script>
 import NavigationMixin from '~/mixins/Navigation'
 import InputAddress from '~/components/inputs/InputAddress'
-
 /*
 This component will send the data to the parent (the index.vue page) which can send the changes and refresh the page
 */
@@ -86,35 +84,36 @@ export default  {
    data () {
     return {
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      zoom: 2,
+      zoom: 6.25,
       selectedType: 'RAIN',
-      center: [48, -1.219482],
+      center: [46.5, 2.5],
       currentCenter: null,
       mapOptions: {
         zoomSnap: 0.5,
         zoomControl: false
       },
       address: "",
-      geojsonOptions: { // TODO PLUGIN
-        style: feature => {
-          return {
-            weight: 2,
-            opacity: 1,
-            color: 'white',
-            dashArray: '3',
-            fillOpacity: 0.7,
-            fillColor: this.getColor(feature.properties.density)
-          }
-        },
-      },
+      // geojsonOptions: { // TODO PLUGIN
+      //   style: feature => {
+      //     return {
+      //       weight: 2,
+      //       opacity: 1,
+      //       color: 'white',
+      //       dashArray: '3',
+      //       fillOpacity: 0.7,
+      //       fillColor: this.getColor(feature.properties.density)
+      //     }
+      //   },
+      // },
     };
   },
   fetch() {
     this.$nuxt.$on('updateCenterMap', (center) => {
       this.zoom = 10
-      this.center = []
-      this.center = center
-      this.center.reverse().reverse()
+      this.$nextTick(() => {
+        this.$set(this.center, 0, center[0])
+        this.$set(this.center, 1, center[1])
+      })
     })
   },
   computed: {
@@ -127,73 +126,43 @@ export default  {
       if (this.impactTemp.scenario === '2.6') {
         switch (this.impactTemp.previsionYear) {
           case '2050':
-            return {
-              icon : quarter,
-              res : "+1,6°C"
-            }
+            return { icon : quarter, res : "+1,6°C" }
           case '2075':
-            return {
-              icon : half,
-              res : "+1,9°C"
-            }
+            return { icon : half, res : "+1,9°C" }
           case '2100':
-            return {
-              icon : half,
-              res : "+2,0°C"
-            }
-        
+            return { icon : half, res : "+2,0°C"}
+
           default:
             break;
         }
       }
       if (this.impactTemp.scenario === '4.5') {
-          switch (this.impactTemp.previsionYear) {
+        switch (this.impactTemp.previsionYear) {
           case '2050':
-            return {
-              icon : quarter,
-              res : "+1,6°C"
-            }
+            return { icon : quarter, res : "+1,6°C" }
           case '2075':
-            return {
-              icon : half,
-              res : "+2,1°C"
-            }
+            return { icon : half, res : "+2,1°C" }
           case '2100':
-            return {
-              icon : threeQuarter,
-              res : "+2,9°C"
-            }
-        
+            return { icon : threeQuarter, res : "+2,9°C" }
+
           default:
             break;
         }
-        }
+      }
       if (this.impactTemp.scenario === '8.5') {
           switch (this.impactTemp.previsionYear) {
-          case '2050':
-            return {
-              icon : quarter,
-              res : "+1,7°C"
-            }
-          case '2075':
-            return {
-              icon : threeQuarter,
-              res : "+2,5°C"
-            }
-          case '2100':
-            return {
-              icon : full,
-              res : "+4,8°C"
-            }
-        
-          default:
-            break;
+            case '2050':
+              return { icon : quarter, res : "+1,7°C" }
+            case '2075':
+              return { icon : threeQuarter, res : "+2,5°C"}
+            case '2100':
+              return { icon : full, res : "+4,8°C"}
+          
+            default:
+              break;
+          }
         }
-        }
-       return {
-              icon : quarter,
-              res : "1.6°C"
-            }
+       return { icon : quarter, res : "1.6°C" }
     },
   },
   watch: {
@@ -205,12 +174,6 @@ export default  {
     this.$nuxt.$off('updateCenterMap')
   },
   methods: {
-    onZoom(zoom) {
-      console.log("zoom", zoom)
-    },
-    clickHandler () {
-      window.alert('and mischievous')
-    },
     getColor(value) {
         const range = [1, 1000];
         const d = (value - range[0]) / (range[1] - range[0]);
