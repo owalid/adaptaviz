@@ -2,3 +2,4 @@ node_modules
 __pycache__
 score/indices_France_REF-mensuelles.txt
 score/.ipynb_checkpoints/score-checkpoint.py
+score/.ipynb_checkpoints/utils_score-checkpoint.py
