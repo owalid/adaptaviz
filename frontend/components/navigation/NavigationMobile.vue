@@ -18,6 +18,16 @@
               </v-col>
             </v-row>
             <v-row>
+              <v-col cols="8" align="center" justify="center">
+                <v-switch
+                  v-model="payload.anomaly"
+                  x-small
+                  label="Anomalie"
+                >
+                </v-switch>
+              </v-col>
+            </v-row>
+            <v-row>
               <v-col cols="12">
                 <v-slider
                   v-model="payload.scenario"
