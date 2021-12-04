@@ -20,6 +20,7 @@
             class="mt-3 ml-1"
           >
             <v-text-field
+              v-model="address"
               label="Adresse"
               placeholder="150 rue General de Gaulle"
               solo
@@ -31,6 +32,14 @@
             >
               <template #prepend-inner>
                 <v-icon small class="mr-2">fa-search</v-icon>
+              </template>
+              <template #append>
+                <v-btn small icon @click="locateOnBrowser">
+                  <v-icon small class="mr-2">fa-location-arrow</v-icon>
+                </v-btn>
+                <v-btn small icon :disabled="!address" @click="getAddress">
+                  <v-icon small class="mr-2">fa-arrow-right</v-icon>
+                </v-btn>
               </template>
             </v-text-field>
           </v-row>
@@ -76,8 +85,8 @@
     </client-only>
 </template>
 <script>
+import axios from 'axios'
 import NavigationMixin from '~/mixins/Navigation'
-
 /*
 This component will send the data to the parent (the index.vue page) which can send the changes and refresh the page
 */
@@ -106,6 +115,7 @@ export default  {
         zoomSnap: 0.5,
         zoomControl: false
       },
+      address: "",
       geojsonOptions: { // TODO PLUGIN
         style: feature => {
           return {
@@ -119,11 +129,6 @@ export default  {
         },
       },
     };
-  },
-  watch: {
-    selectedType(newValue) {
-      this.$emit('updateSelectedType', newValue)
-    }
   },
   computed: {
     impactTempResult() {
@@ -204,7 +209,40 @@ export default  {
             }
     },
   },
+  watch: {
+    selectedType(newValue) {
+      this.$emit('updateSelectedType', newValue)
+    }
+  },
   methods: {
+    async getAddress() {
+      if (this.address) {
+        const res = await axios.get(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(this.address)}&limit=5`)
+        this.zoom = 10
+        this.center = []
+        this.center.push(...(res.data.features[0].geometry.coordinates.map(elmt => parseFloat(elmt).toFixed(6))))
+        this.center.reverse()
+      }
+    },
+    getPositionWithIPAddress() {
+      const vm = this;
+     fetch('https://api.ipregistry.co/?key=tryout')
+      .then(response => response.json())
+      .then((payload) => {
+        vm.center = [payload.location.latitude, payload.location.longitude]
+      });
+    },
+    async locateOnBrowser() {
+      const vm = this
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(({coords}) => {
+          vm.center = [coords.latitude, coords.longitude]
+        }, this.getPositionWithIPAddress);
+      } else {
+        await this.getPositionWithIPAddress()
+      }
+      this.zoom = 10
+    },
     onZoom(zoom) {
       console.log("zoom", zoom)
     },
