@@ -19,9 +19,10 @@
 	</v-col>
 </template>
 <script>
-import geojson from './map/map/data'
+import geojson from './data'
 
 export default  {
+  name: "LeafletMap",
    data () {
     return {
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
