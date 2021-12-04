@@ -1,8 +1,7 @@
 <template>
-  <v-col cols="12">
     <client-only>
       <l-map
-        style="height: 97vh; width:100%"
+        :style="($vuetify.breakpoint.mdAndUp) ? 'height: 97vh; width:100%' : 'height: 90vh; width:100vw'"
         :zoom="zoom"
         :options="mapOptions"
         :center="center"
@@ -16,6 +15,12 @@
           :options="geojsonOptions"
         />
         <l-control position="topleft">
+          <v-row
+            v-if="$vuetify.breakpoint.mdAndDown"
+            class="mt-3 ml-1"
+          >
+            <input-address />
+          </v-row>
           <v-row>
             <v-btn
               class="ma-2"
@@ -39,12 +44,12 @@
               @click="selectedType = 'RAIN'"
             >
               <v-icon small class="mr-2">fa-sun</v-icon>
-              <span>Stress solaire</span>
+              <span>Stress thermique</span>
             </v-btn>
           </v-row>
             <v-row>
               <v-alert
-                :impactTemp="impactTemp"
+                :impact-temp="impactTemp"
                 class="ma-2"
                 color="black"
                 small
@@ -56,18 +61,18 @@
         </l-control>
       </l-map>
     </client-only>
-	</v-col>
 </template>
 <script>
 import NavigationMixin from '~/mixins/Navigation'
+import InputAddress from '~/components/inputs/InputAddress'
 
 /*
 This component will send the data to the parent (the index.vue page) which can send the changes and refresh the page
 */
 export default  {
   name: "LeafletMap",
+  components: {InputAddress},
   mixins: [NavigationMixin],
-
   props: {
     geojson: {
       type: Object,
@@ -89,6 +94,7 @@ export default  {
         zoomSnap: 0.5,
         zoomControl: false
       },
+      address: "",
       geojsonOptions: { // TODO PLUGIN
         style: feature => {
           return {
@@ -103,10 +109,13 @@ export default  {
       },
     };
   },
-  watch: {
-    selectedType(newValue) {
-      this.$emit('updateSelectedType', newValue)
-    }
+  fetch() {
+    this.$nuxt.$on('updateCenterMap', (center) => {
+      this.zoom = 10
+      this.center = []
+      this.center = center
+      this.center.reverse().reverse()
+    })
   },
   computed: {
     impactTempResult() {
@@ -186,6 +195,14 @@ export default  {
               res : "1.6°C"
             }
     },
+  },
+  watch: {
+    selectedType(newValue) {
+      this.$emit('updateSelectedType', newValue)
+    }
+  },
+  beforeDestroy() {
+    this.$nuxt.$off('updateCenterMap')
   },
   methods: {
     onZoom(zoom) {
