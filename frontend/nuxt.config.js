@@ -32,7 +32,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/client/vuetify.client.js',
+    '~/plugins/vuetify.js',
     '~/plugins/client/leaflet.client.js'
   ],
 
@@ -82,7 +82,16 @@ export default {
       dark: true,
       themes: {
         dark: {
-          primary: colors.blue.darken3,
+          primary: colors.blue.darken2,
+          accent: colors.grey.darken3,
+          secondary: colors.amber.darken3,
+          info: colors.teal.lighten1,
+          warning: colors.amber.base,
+          error: colors.deepOrange.accent4,
+          success: colors.green.accent3
+        },
+        ligth: {
+          primary: colors.blue.darken2,
           accent: colors.grey.darken3,
           secondary: colors.amber.darken3,
           info: colors.teal.lighten1,
@@ -96,7 +105,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    transpile: [/^vuetify/],
+    transpile: [/^vuetify/, 'vuex-persist'],
     extractCSS: true,
     standalone: true,
     ignoreOrder: false,
@@ -119,24 +128,37 @@ export default {
       splitChunks: {
         chunks: 'all',
         automaticNameDelimiter: '.',
-        name: 'adaptaviz',
-        maxSize : 646000,
+        name: 'owalid',
+        minSize: 20000,
+        minChunks: 1,
+        maxAsyncRequests: 30,
+        maxInitialRequests: 30,
+        enforceSizeThreshold: 50000,
         cacheGroups: {
           styles: {
             name: 'styles',
             test: /\.(css|vue)$/,
             chunks: 'all',
             enforce: true
-          }
+          },
+          defaultVendors: {
+            test: /[\\/]node_modules[\\/]/,
+            priority: -10,
+            reuseExistingChunk: true,
+          },
+          default: {
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true,
+          },
         }
       }
     },
+
+    /*
+    ** You can extend webpack config here
+    */
     extend (config, ctx) {
-      if (!ctx.isServer) {
-        config.node = {
-          fs: 'empty'
-        }
-      }
     }
   }
 }
