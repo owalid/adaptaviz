@@ -44,7 +44,7 @@
             </v-text-field>
           </v-row>
             <v-row>
-              <h2>Scenarios</h2>
+              <h2>Scenarios :</h2>
             </v-row>
             <v-row>
               <v-col cols="12">
@@ -59,16 +59,24 @@
               </v-col>
             </v-row>
           <v-row>
-            <h2>Année</h2>
+            <h2>Horizon :</h2>
           </v-row>
           <v-row>
             <v-col cols="12">
-              <v-select
+              <!-- <v-select
                 v-model="payload.previsionYear"
                 :items="itemsDates"
                 label="Choisissez une année de prévision"
               >
-              </v-select>
+              </v-select> -->
+              <v-slider
+                  v-model="payload.previsionYear"
+                  :tick-labels="itemsDates"
+                  :max="2"
+                  step="1"
+                  ticks="always"
+                  :tick-size="itemsDates.length"
+                ></v-slider>
             </v-col>
           </v-row>
           <v-row>

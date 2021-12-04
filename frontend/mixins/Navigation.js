@@ -5,17 +5,16 @@
 export default {
   name: "NavigationMixin",
   data () {
-    const from = new Date().getFullYear() + 1
     return {
       payload: { // Here it will be the data property used for the inputs
         scenario: '1',
-        previsionYear: from
+        previsionYear: '1'
       },
       ticksScenarios: ['2.6', '4.5', '8.5'],
       clipped: false,
       drawer: true,
       fixed: false,
-      itemsDates: [...Array(100).keys()].map(elmt => elmt + from),
+      itemsDates: ['2050', '2075', '2100'],
       miniVariant: false,
       right: true,
       rightDrawer: false
@@ -24,12 +23,15 @@ export default {
   computed: {
     currentScenario() {
       return this.ticksScenarios[this.payload.scenario]
+    },
+    currentDate() {
+        return this.itemsDates[this.payload.previsionYear]
     }
   },
   watch: {
     payload: {
       handler(newValue) {
-        this.$nuxt.$emit('updatePayloadNavigation', {...newValue, scenario: this.currentScenario})
+        this.$nuxt.$emit('updatePayloadNavigation', {scenario: this.currentScenario, previsionYear: this.currentDate})
       },
       deep: true
     }
