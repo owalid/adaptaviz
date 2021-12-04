@@ -42,20 +42,38 @@
               <span>Stress solaire</span>
             </v-btn>
           </v-row>
+            <v-row>
+              <v-alert
+                :impactTemp="impactTemp"
+                class="ma-2"
+                color="black"
+                small
+              >
+                <v-icon small class="mr-2">{{impactTempResult.icon}}</v-icon>
+                <span>{{impactTempResult.res}}</span>
+              </v-alert>
+            </v-row>
         </l-control>
       </l-map>
     </client-only>
 	</v-col>
 </template>
 <script>
+import NavigationMixin from '~/mixins/Navigation'
 
 /*
 This component will send the data to the parent (the index.vue page) which can send the changes and refresh the page
 */
 export default  {
   name: "LeafletMap",
+  mixins: [NavigationMixin],
+
   props: {
     geojson: {
+      type: Object,
+      required: true
+    },
+    impactTemp: {
       type: Object,
       required: true
     }
@@ -82,13 +100,92 @@ export default  {
             fillColor: this.getColor(feature.properties.density)
           }
         },
-      }
+      },
     };
   },
   watch: {
     selectedType(newValue) {
       this.$emit('updateSelectedType', newValue)
     }
+  },
+  computed: {
+    impactTempResult() {
+      const quarter = "fa-thermometer-quarter";
+      const half = "fa-thermometer-half";
+      const threeQuarter = "fa-thermometer-three-quarters";
+      const full = "fa-thermometer-full";
+
+      if (this.impactTemp.scenario === '2.6') {
+        switch (this.impactTemp.previsionYear) {
+          case '2050':
+            return {
+              icon : quarter,
+              res : "+1,6°C"
+            }
+          case '2075':
+            return {
+              icon : half,
+              res : "+1,9°C"
+            }
+          case '2100':
+            return {
+              icon : half,
+              res : "+2,0°C"
+            }
+        
+          default:
+            break;
+        }
+      }
+      if (this.impactTemp.scenario === '4.5') {
+          switch (this.impactTemp.previsionYear) {
+          case '2050':
+            return {
+              icon : quarter,
+              res : "+1,6°C"
+            }
+          case '2075':
+            return {
+              icon : half,
+              res : "+2,1°C"
+            }
+          case '2100':
+            return {
+              icon : threeQuarter,
+              res : "+2,9°C"
+            }
+        
+          default:
+            break;
+        }
+        }
+      if (this.impactTemp.scenario === '8.5') {
+          switch (this.impactTemp.previsionYear) {
+          case '2050':
+            return {
+              icon : quarter,
+              res : "+1,7°C"
+            }
+          case '2075':
+            return {
+              icon : threeQuarter,
+              res : "+2,5°C"
+            }
+          case '2100':
+            return {
+              icon : full,
+              res : "+4,8°C"
+            }
+        
+          default:
+            break;
+        }
+        }
+       return {
+              icon : quarter,
+              res : "1.6°C"
+            }
+    },
   },
   methods: {
     onZoom(zoom) {

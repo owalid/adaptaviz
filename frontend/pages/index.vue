@@ -2,6 +2,7 @@
   <client-only>
     <leaflet-map
       :geojson="geojson"
+      :impact-temp="impactTemp"
       @boundUpdated="onBoundUpdated"
       @updateSelectedType="onSelectedTypeUpdated"
     />
@@ -37,6 +38,12 @@ export default {
     });
   },
   computed: {
+    impactTemp() {
+        return {
+            previsionYear: this.previsionYear,
+            scenario: this.scenario
+        }
+    },
     payload() { // This object will be sent to the api to allow to filter the data according to the fields and the displayed zone
       return  {
         bounds: this.bounds,
