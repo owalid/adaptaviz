@@ -1,9 +1,13 @@
+/*
+  This computed property is used for browsing (mobile and desktop) it allows to update the index.vue page with the event-bus.
+  The components will share the same data property for the sake of code clarity
+*/
 export default {
   name: "NavigationMixin",
   data () {
     const from = new Date().getFullYear() + 1
     return {
-      payload: {
+      payload: { // Here it will be the data property used for the inputs
         scenario: '1',
         previsionYear: from
       },
@@ -14,10 +18,7 @@ export default {
       itemsDates: [...Array(100).keys()].map(elmt => elmt + from),
       miniVariant: false,
       right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js',
-      min: "2018",
-      max: "2020"
+      rightDrawer: false
     }
   },
   computed: {

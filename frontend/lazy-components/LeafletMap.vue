@@ -48,17 +48,24 @@
 	</v-col>
 </template>
 <script>
-import geojson from './data'
 
+/*
+This component will send the data to the parent (the index.vue page) which can send the changes and refresh the page
+*/
 export default  {
   name: "LeafletMap",
+  props: {
+    geojson: {
+      type: Object,
+      required: true
+    }
+  },
    data () {
     return {
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       zoom: 2,
       selectedType: 'RAIN',
       center: [48, -1.219482],
-      geojson,
       currentCenter: null,
       mapOptions: {
         zoomSnap: 0.5,

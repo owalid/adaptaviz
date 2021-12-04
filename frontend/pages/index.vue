@@ -1,12 +1,19 @@
 <template>
   <client-only>
     <leaflet-map
+      :geojson="geojson"
       @boundUpdated="onBoundUpdated"
       @updateSelectedType="onSelectedTypeUpdated"
     />
   </client-only>
 </template>
 <script>
+import geojson from './data'  // Fake data used to see how map choropleth works
+
+/*
+This page is the master page, it allows to make the link between the layout form and the map,
+it recovers the changed data and reload the page according to the selected data
+*/
 export default {
   name: "Home",
   components: {
@@ -14,6 +21,7 @@ export default {
   },
   data() {
     return {
+      geojson,
       bounds: null,
       previsionYear: null,
       selectedType: null,
@@ -29,7 +37,7 @@ export default {
     });
   },
   computed: {
-    payload() {
+    payload() { // This object will be sent to the api to allow to filter the data according to the fields and the displayed zone
       return  {
         bounds: this.bounds,
         previsionYear: this.previsionYear,
@@ -43,7 +51,7 @@ export default {
     this.$nuxt.$off('updatePayloadNavigation')
   },
   methods: {
-    updateMap() { // Function used to call the back and update the map
+    updateMap() { // This function allows to get the data from the api it will be called every 500ms to avoid overloading the call api
       if (this.interval === null) {
         this.interval = setInterval(() => {
           // todo call api here
