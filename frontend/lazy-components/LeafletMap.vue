@@ -97,15 +97,19 @@ export default  {
     clickHandler () {
       window.alert('and mischievous')
     },
-    getColor(d) {
-      return d > 1000 ? '#800026' :
-              d > 500  ? '#BD0026' :
-              d > 200  ? '#E31A1C' :
-              d > 100  ? '#FC4E2A' :
-              d > 50   ? '#FD8D3C' :
-              d > 20   ? '#FEB24C' :
-              d > 10   ? '#FED976' :
-                      '#FFEDA0';
+    getColor(value) {
+        const range = [1, 1000];
+        const d = (value - range[0]) / (range[1] - range[0]);
+      return d > 0.9  ? '#338556' :
+        d > 0.8 ? '#4FBA19' :
+        d > 0.7 ? '#8CDD20' :
+        d > 0.6 ? '#B8E222' :
+        d > 0.5 ? '#E5FC27' :
+        d > 0.4 ? '#FFF73F' :
+        d > 0.3 ? '#FBD521' :
+        d > 0.2 ? '#F4811F' :
+        d > 0.1 ? '#F0340A' :
+        '#BC2505' ;
     }
   }
 }
