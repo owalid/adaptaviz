@@ -5,6 +5,7 @@ Created on Sat Dec  4 13:35:37 2021
 @author: Samue
 """
 import numpy as np
+import pandas as pd
 sensibilite = 1
 
 def Score_Moyglissante(Score_Mois,temps_pousse):
@@ -70,3 +71,7 @@ def scores_pluv(Rain_modele,Rain_Opt_min,Rain_Opt_Max,Rain_Abs_Min,Rain_Abs_Max)
         Score = 0
     return Score
 
+def score_dep(df_plante, df_meteo,df_loc, horizon, espece, senario):
+    score = get_all_scores(df_plante, df_meteo, horizon, espece, senario)
+    score = pd.merge(score,df_loc,on='point')
+    return score.groupby('dep').agg({'score':"mean"})
