@@ -2,3 +2,21 @@
 //
 // The variables you want to modify
 // $font-size-root: 20px;
+
+$material-dark: (
+  'app-bar': #0D0D0D,
+  'bottom-navigation': #0D0D0D,
+  'background': #0D0D0D,
+  'cards': #0D0D0D,
+  'navigation-drawer': #111111,
+  'toolbar': #0D0D0D
+);
+
+$material-light: (
+  'app-bar': #FAFAFA,
+  'bottom-navigation': #FAFAFA,
+  'background': #FAFAFA,
+  'cards': #FAFAFA,
+  'navigation-drawer': #FAFAFA,
+  'toolbar': #FAFAFA
+);

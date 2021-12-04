@@ -26,6 +26,7 @@
     "core-js": "^3.15.1",
     "leaflet": "^1.7.1",
     "nuxt": "^2.15.7",
+    "nuxt-webfontloader": "^1.1.0",
     "sass-loader": "10.1.1",
     "vue2-leaflet": "^2.7.1",
     "vuetify": "^2.5.5"

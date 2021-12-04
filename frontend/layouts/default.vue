@@ -1,5 +1,9 @@
 <template>
-  <v-app>
+  <v-app dark>
+    <template v-if="mounted">
+      <navigation-desktop v-if="$vuetify.breakpoint.mdAndUp" />
+      <navigation-mobile v-else />
+    </template>
     <v-main>
       <nuxt />
     </v-main>
@@ -7,29 +11,23 @@
 </template>
 
 <script>
+import NavigationDesktop from '~/components/navigation/NavigationDesktop'
+import NavigationMobile from '~/components/navigation/NavigationMobile'
+
 export default {
-  data () {
+  components: {NavigationDesktop, NavigationMobile},
+  data() {
     return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/'
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire'
-        }
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js'
+      mounted: false
     }
+  },
+  mounted() {
+    this.mounted = true
   }
 }
 </script>
+<style lang="scss">
+.input--search {
+  width: 50%;
+}
+</style>
