@@ -9,6 +9,7 @@
     small
     dense
     light
+    @keyup.enter="getAddress"
   >
     <template #prepend-inner>
       <v-icon small class="mr-2">fa-search</v-icon>
