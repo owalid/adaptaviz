@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 import os
 from flask import jsonify
 from utils import mixins
@@ -9,9 +9,19 @@ def create_app():
     CORS(app)
 
 
-    @app.route('/')
-    def test():
-        return mixins.create_response(data={1:"hello world !"})
+    @app.route('/', methods=['POST'])
+    def get_geojson_map():
+        data = request.json
+        if 'bounds' in data\
+            and 'previsionYear' in data\
+            and 'selectedType' in data\
+            and 'scenario' in data\
+            and 'cultivationType' in data:
+            # get data
+          print(data)
+          return mixins.create_response(data={1:"hello world !"})
+        else:
+          return mixins.create_response(status=500, data={}, message="Error params")
 
     return app
 app = create_app()
