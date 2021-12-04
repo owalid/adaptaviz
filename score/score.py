@@ -132,6 +132,13 @@ def get_all_scores(climate_df, pheno_df, species, horizon, scenario):
     #print(result_df.sample(25))
     return result_df
 
+
+def score_pra(df_plante, df_meteo, horizon, espece, senario, df_pra):
+    score = get_all_scores(df_plante, df_meteo, horizon, espece, senario)
+    score = pd.merge(score, df_pra.loc[["code_pra", "nom"]], on='point')
+    print (score)
+    return score.groupby('code_pra').agg({'score': "mean"})
+
 def main():
     if len(argv) >= 3:
         species = argv[1]
@@ -153,7 +160,7 @@ def main():
     #new['Temp_score'].hist()
     new['Total_score'].hist()
     plt.show()
-    new.to_csv('total_score_orge_H3_2_6.csv')
+    #new.to_csv('total_score_orge_H3_2_6.csv')
 
 
 if __name__ == "__main__":
