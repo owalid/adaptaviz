@@ -26,10 +26,25 @@
         </v-row>
         <v-container v-if="!miniVariant">
           <v-row>
-            <input-address />
+            <v-text-field
+              label="Adresse"
+              placeholder="150 rue General de Gaulle"
+              solo
+              rounded
+              outlined
+              small
+              dense
+              single-line
+              light
+              class="shrink"
+            >
+              <template #prepend-inner>
+                <v-icon small class="mr-2">fa-search</v-icon>
+              </template>
+            </v-text-field>
           </v-row>
-            <v-row>
-              <h2>Scenarios</h2>
+            <v-row class="justify-space-between">
+              <h2>Scenario RCP :</h2>
             </v-row>
             <v-row>
               <v-col cols="12">
@@ -40,21 +55,15 @@
                   step="1"
                   ticks="always"
                   :tick-size="ticksScenarios.length"
+                  class="mb-2"
                 ></v-slider>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="8" align="center" justify="center">
-                <v-switch
-                  v-model="payload.anomaly"
-                  x-small
-                  label="Anomalie"
-                >
-                </v-switch>
+                <v-row>
+                  <span class="small-text">Scénarion d'émission projectif par le GIEC</span>
+                </v-row>
               </v-col>
             </v-row>
           <v-row>
-            <h2>Horizon</h2>
+            <h2 class="mt-3">Horizon :</h2>
           </v-row>
           <v-row>
             <v-col cols="12">
@@ -65,11 +74,12 @@
                 step="1"
                 ticks="always"
                 :tick-size="itemsDates.length"
+                class="mb-2"
               ></v-slider>
             </v-col>
           </v-row>
           <v-row>
-            <h2>Cultures</h2>
+            <h2 class="mt-3">Cultures</h2>
           </v-row>
         </v-container>
       </v-container>
@@ -77,11 +87,9 @@
 </template>
 <script>
 import NavigationMixin from '~/mixins/Navigation'
-import InputAddress from '~/components/inputs/InputAddress'
 
 export default {
   name: "NavigationDesktop",
-  components: {InputAddress},
-  mixins: [NavigationMixin]
+  mixins: [NavigationMixin]  
 }
 </script>
