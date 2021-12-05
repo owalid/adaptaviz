@@ -97,7 +97,7 @@
 </template>
 <script>
 import NavigationMixin from '~/mixins/Navigation'
-import InputAddress from '~/components/InputtAddress'
+import InputAddress from '~/components/inputs/InputAddress'
 
 export default {
   name: "NavigationDesktop",
