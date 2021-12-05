@@ -5,7 +5,7 @@ import { cloneDeep, findIndex } from 'lodash'
 import { MongoClient } from "mongodb";
 import cors from 'cors'
 import smallRegions from '../static/data/small-regions'
-// import scoresWithAnomaly from '../static/data/scores-with-anomaly'
+import scoresWithAnomaly from '../static/data/scores-with-anomaly'
 // import scoresWithoutAnomaly from '../static/data/scores-without-anomaly'
 
 const connectionString = process.env.ATLAS_URI;
