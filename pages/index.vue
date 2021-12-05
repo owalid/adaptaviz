@@ -29,7 +29,7 @@ export default {
       scenario: '2.6',
       specie: 'Sorgho',
       scoreType: 'Score_Tot',
-      anomaly: false,
+      anomaly: true,
 
       regions: null,
       bounds: null,

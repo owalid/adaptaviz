@@ -96,18 +96,6 @@ export default  {
         zoomControl: false
       },
       address: "",
-      geojsonOptions: {
-        style: feature => {
-          return {
-            weight: 2,
-            opacity: 1,
-            color: 'white',
-            dashArray: '3',
-            fillOpacity: 0.7,
-            fillColor: this.getAnomalyColor(feature.score)
-          }
-        },
-      },
     };
   },
   fetch() {
@@ -120,6 +108,20 @@ export default  {
     })
   },
   computed: {
+    geojsonOptions() {
+      return  {
+        style: feature => {
+            return {
+              weight: 2,
+              opacity: 1,
+              color: 'white',
+              dashArray: '3',
+              fillOpacity: 0.7,
+              fillColor: this.$colors.generateAnomalyColor(feature.score)
+            }
+          }
+        }
+      },
     impactTempResult() {
       const quarter = "fa-thermometer-quarter";
       const half = "fa-thermometer-half";
@@ -194,61 +196,6 @@ export default  {
       } else {
         this.scoresType[key] = !this.scoresType[key]
       }
-    },
-    getAnomalyColor(value) {
-      return value > -1  ? '#3aa2bb' :
-        value > -0.95 ? '#3da9c4' :
-        value > -0.90 ? '#3fb1cc' :
-        value > -0.85 ? '#42b8d5' :
-        value > -0.80 ? '#4abbd7' :
-        value > -0.75 ? '#4dbcd8' :
-        value > -0.70 ? '#55bfd9' :
-        value > -0.65 ? '#5cc2db' :
-        value > -0.60 ? '#64c5dd' :
-        value > -0.55 ? '#6cc8de' :
-        value > -0.50 ? '#6fc9df' :
-        value > -0.45 ? '#77cce1' :
-        value > -0.40 ? '#7ecfe2' :
-        value > -0.35 ? '#86d2e4' :
-        value > -0.30 ? '#8ed4e6' :
-        value > -0.25 ? '#91d6e7' :
-        value > -0.20 ? '#9ddae9' :
-        value > -0.15 ? '#a4ddeb' :
-        value > -0.10 ? '#ace0ed' :
-        value > 0 ? '#ffffff' :
-        value > 0.1 ? '#ffe6e9' :
-        value > 0.15 ? '#ffe6e9' :
-        value > 0.2 ? '#ffccd3' :
-        value > 0.25 ? '#ffccd3' :
-        value > 0.3 ? '#ffb3be' :
-        value > 0.35 ? '#ffb3be' :
-        value > 0.4 ? '#ff99a8' :
-        value > 0.45 ? '#ff99a8' :
-        value > 0.5 ? '#ff8092' :
-        value > 0.55 ? '#ff8092' :
-        value > 0.6 ? '#ff667c' :
-        value > 0.65 ? '#ff667c' :
-        value > 0.7 ? '#ff4d66' :
-        value > 0.75 ? '#ff4d66' :
-        value > 0.8 ? '#ff3351' :
-        value > 0.85 ? '#ff3351' :
-        value > 0.9 ? '#b3001a' :
-        value > 0.95 ? '#b3001a' :
-        '#990016' ;
-    },
-    getColor(value) {
-      // if (value < 0) value *= -1 
-
-      return value > 0.9  ? '#338556' :
-        value > 0.8 ? '#4FBA19' :
-        value > 0.7 ? '#8CDD20' :
-        value > 0.6 ? '#B8E222' :
-        value > 0.5 ? '#E5FC27' :
-        value > 0.4 ? '#FFF73F' :
-        value > 0.3 ? '#FBD521' :
-        value > 0.2 ? '#F4811F' :
-        value > 0.1 ? '#F0340A' :
-        '#BC2505' ;
     }
   }
 }

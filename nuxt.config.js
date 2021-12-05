@@ -34,8 +34,9 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/plugins/vuetify.js',
-    '~/plugins/client/leaflet.client.js'
+    '~/plugins/vuetify',
+    '~/plugins/client/colors.client',
+    '~/plugins/client/leaflet.client'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

@@ -9,7 +9,7 @@ export default {
       payload: { // Here it will be the data property used for the inputs
         scenario: '0',
         previsionYear: '0',
-        specie: '0',
+        specie: 0,
         anomaly: true
       },
       ticksScenarios: ['2.6', '4.5', '8.5'],
