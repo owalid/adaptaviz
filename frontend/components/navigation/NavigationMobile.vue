@@ -60,13 +60,13 @@
   <v-footer dense fixed>
     <v-bottom-navigation>
       <v-row  justify="center" align="center">
-        <v-col cols="1">
+        <v-col cols="1"><v-btn href="/about">
           <h2
             :class="[{'xsmall-title': $vuetify.breakpoint.xsOnly,
                       'small-title': $vuetify.breakpoint.smOnly}]"
           >
             Adaptaviz
-          </h2>
+          </h2></v-btn>
         </v-col>
         <v-spacer />
         <v-col cols="7">
