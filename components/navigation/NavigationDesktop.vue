@@ -26,44 +26,39 @@
         </v-row>
         <v-container v-if="!miniVariant">
           <v-row>
-            <v-text-field
-              label="Adresse"
-              placeholder="150 rue General de Gaulle"
-              solo
-              rounded
-              outlined
-              small
-              dense
-              single-line
-              light
-              class="shrink"
-            >
-              <template #prepend-inner>
-                <v-icon small class="mr-2">fa-search</v-icon>
-              </template>
-            </v-text-field>
+            <input-address />
           </v-row>
-            <v-row class="justify-space-between">
-              <h2>Scenario RCP :</h2>
-            </v-row>
-            <v-row>
-              <v-col cols="12">
-                <v-slider
-                  v-model="payload.scenario"
-                  :tick-labels="ticksScenarios"
-                  :max="2"
-                  step="1"
-                  ticks="always"
-                  :tick-size="ticksScenarios.length"
-                  class="mb-2"
-                ></v-slider>
-                <v-row>
-                  <span class="small-text">Scénarion d'émission projectif par le GIEC</span>
-                </v-row>
-              </v-col>
-            </v-row>
+          <v-row class="justify-space-between">
+            <h2>Scenario RCP</h2>
+          </v-row>
           <v-row>
-            <h2 class="mt-3">Horizon :</h2>
+            <v-col cols="12">
+              <v-slider
+                v-model="payload.scenario"
+                :tick-labels="ticksScenarios"
+                :max="2"
+                step="1"
+                ticks="always"
+                :tick-size="ticksScenarios.length"
+                class="mb-2"
+              ></v-slider>
+              <v-row>
+                <span class="small-text">Scénarion d'émission projectif par le GIEC</span>
+              </v-row>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <v-switch
+                v-model="payload.anomaly"
+                x-small
+                label="Anomalie"
+              >
+              </v-switch>
+            </v-col>
+          </v-row>
+          <v-row>
+            <h2 class="mt-3">Horizon</h2>
           </v-row>
           <v-row>
             <v-col cols="12">
@@ -102,10 +97,12 @@
 </template>
 <script>
 import NavigationMixin from '~/mixins/Navigation'
+import InputAddress from '~/components/InputtAddress'
 
 export default {
   name: "NavigationDesktop",
-  mixins: [NavigationMixin]  
+  components: {InputAddress},
+  mixins: [NavigationMixin]
 }
 </script>
 <style>
