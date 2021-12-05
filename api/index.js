@@ -2,23 +2,11 @@
 import express from 'express'
 import helmet from 'helmet'
 import { cloneDeep, findIndex } from 'lodash'
-import { MongoClient } from "mongodb";
 import cors from 'cors'
 import smallRegions from '../static/data/small-regions'
-import scoresWithAnomaly from '../static/data/scores-with-anomaly'
+import scoresWithAnomaly1 from '../static/data/scores-with-anomaly-1'
+import scoresWithAnomaly2 from '../static/data/scores-with-anomaly-2'
 // import scoresWithoutAnomaly from '../static/data/scores-without-anomaly'
-
-const connectionString = process.env.ATLAS_URI;
-const client = new MongoClient(connectionString, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
-let dbConnection;
-client.connect((err, db) => {
-  if (err) return;
-  dbConnection = db.db("ScoresWithAnomaly");
-});
 
 // Create express instance
 const app = express()
@@ -32,7 +20,7 @@ app.post('/get-geojson', (req, res) => {
   const {scenario, horizon, specie, scoreType} = req.body
 
   const smallRegionsClone = cloneDeep(smallRegions)
-  const scoresClone = dbConnection.collection("Scores").find();
+  const scoresClone = [...scoresWithAnomaly1, ...scoresWithAnomaly2]
   scoresClone.forEach(scoreElmt => {
     if (scoreElmt['Scenario'] === scenario
         && scoreElmt['Horizon'] === horizon
