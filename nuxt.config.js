@@ -3,14 +3,14 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - adaptaviz-frontend',
-    title: 'adaptaviz-frontend',
+    titleTemplate: '%s - Adaptaviz',
+    title: 'Adaptaviz',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0' },
       { content: 'yes', name: 'apple-mobile-web-app-capable' },
       { content: 'yes', name: 'mobile-web-app-capable' },
-      { hid: 'description', name: 'description', content: '' },
+      { hid: 'description', name: 'Adaptaviz calcule des indicateurs géolocalisés en croisant des données de prévisions météorologiques avec dans données agronomiques pour certaines espèces clés. Ceci permet de donner des pistes d’adaptation des cultures sur le territoire français sur différents scénarios et horizons temporels.', content: '' },
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
@@ -78,7 +78,15 @@ export default {
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
-      lang: 'en'
+      lang: 'fr'
+    },
+    options: {
+      viewport: 'width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0',
+      ogSiteName: 'Adaptaviz',
+      ogTitle: 'Adaptaviz',
+      ogDescription: 'Adaptaviz calcule des indicateurs géolocalisés en croisant des données de prévisions météorologiques avec dans données agronomiques pour certaines espèces clés. Ceci permet de donner des pistes d’adaptation des cultures sur le territoire français sur différents scénarios et horizons temporels.',
+      ogUrl: 'www.adaptaviz.fr',
+      nativeUI: true
     }
   },
 
