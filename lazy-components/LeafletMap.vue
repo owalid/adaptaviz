@@ -1,7 +1,7 @@
 <template>
     <client-only>
       <l-map
-        :style="($vuetify.breakpoint.lgAndUp) ? 'height: 97vh; width:100%' : 'height: 90vh; width:100vw'"
+        :style="($vuetify.breakpoint.lgAndUp) ? 'height: 97vh; width:100%' : 'height: 80vh; width:100vw'"
         :zoom="zoom"
         :options="mapOptions"
         :center="center"

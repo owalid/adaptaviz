@@ -57,7 +57,7 @@
         </v-container>
       </v-sheet>
     </v-bottom-sheet>
-  <v-footer dense fixed>
+  <v-footer dense fixed inset>
     <v-bottom-navigation>
       <v-row  justify="center" align="center">
         <v-col cols="1"><v-btn href="/about">
