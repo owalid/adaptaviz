@@ -17,7 +17,7 @@
     "*.{css,vue}": "stylelint"
   },
   "optionalDependencies": {
-    "fsevents": "2.3.2"
+    "fsevents": "*"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.6",

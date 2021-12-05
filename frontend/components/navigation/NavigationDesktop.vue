@@ -9,7 +9,7 @@
       <v-container>
         <v-row class="mb-3">
           <v-col v-if="!miniVariant">
-            <h1>Adaptaviz</h1>
+          <v-btn href="/about"><h1>Adaptaviz</h1></v-btn>
           </v-col>
           <v-col>
             <v-row align="center" :justify="(miniVariant) ? 'center' : 'end'">
