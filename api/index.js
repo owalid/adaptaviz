@@ -3,9 +3,9 @@ import express from 'express'
 import helmet from 'helmet'
 import { cloneDeep, findIndex } from 'lodash'
 import cors from 'cors'
-import smallRegions from './data/small-regions'
-import scoresWithAnomaly from './data/scores-with-anomaly'
-import scoresWithoutAnomaly from './data/scores-without-anomaly'
+import smallRegions from '../static/data/small-regions'
+import scoresWithAnomaly from '../static/data/scores-with-anomaly'
+import scoresWithoutAnomaly from '../static/data/scores-without-anomaly'
 
 // Create express instance
 const app = express()
@@ -17,10 +17,9 @@ app.use(helmet())
 
 app.post('/get-geojson', (req, res) => {
   const {scenario, horizon, specie, scoreType, anomaly} = req.body
-  console.log(scenario, horizon, specie, scoreType, anomaly)
+  
   const smallRegionsClone = cloneDeep(smallRegions);
   const scoresClone = (anomaly) ? cloneDeep(scoresWithAnomaly) : cloneDeep(scoresWithoutAnomaly)
-  console.log(scoresClone.length)
   scoresClone.forEach(scoreElmt => {
     if (scoreElmt['Scenario'] === scenario
         && scoreElmt['Horizon'] === horizon
