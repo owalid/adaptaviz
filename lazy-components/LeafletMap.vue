@@ -116,7 +116,7 @@ export default  {
               opacity: 1,
               color: 'white',
               dashArray: '3',
-              fillOpacity: 0.7,
+              fillOpacity: 0.8,
               fillColor: this.$colors.generateAnomalyColor(feature.score)
             }
           }
