@@ -132,6 +132,13 @@ def get_all_scores(climate_df, pheno_df, species, horizon, scenario):
     #print(result_df.sample(25))
     return result_df
 
+
+def score_pra(df_plante, df_meteo, horizon, espece, senario, df_pra):
+    score = get_all_scores(df_plante, df_meteo, horizon, espece, senario)
+    score = pd.merge(score, df_pra.loc[["code_pra", "nom"]], on='point')
+    print (score)
+    return score.groupby('code_pra').agg({'score': "mean"})
+
 def main():
     if len(argv) >= 3:
         species = argv[1]
@@ -140,11 +147,11 @@ def main():
     print (species)
     print (horizon)
     print (scenario)
-    climate_df = pd.read_csv('indices_France_2020-2050-mensuelles.txt', sep=";")
+    climate_df = pd.read_csv('../data/indices_France_2020-2050-mensuelles.txt', sep=";")
     climate_df = climate_df.iloc[:, 0:-1]
     climate_df.columns = ["Point", 'Latitude', 'Longitude', 'Contexte', 'Période', 'Mois', 'Tmoy', 'Tmin', 'Tmax', 'NORTRAV', 'NORTXQ90', 'NORTXQ10',
                           'NORTNQ10', 'NORTNQ90', 'NORHDD', 'NORCDD', 'NORPAV', 'NORRR', 'NORPFL90', 'NORPINT']
-    pheno_df = pd.read_csv('plantes_sol.csv', sep=",")
+    pheno_df = pd.read_csv('../data/plantes_sol.csv', sep=",")
     to_keep = ['species', 'temp_opt_min', 'Temp_Opt_Max', 'Temp_Abs_Min', 'Temp_Abs_Max', 'Rain_Opt_Min',
            'Rain_Opt_Max', 'Rain_Abs_Min', 'Rain_Abs_Max', 'pH_Opt_Min', 'pH_Opt_Max', 'pH_Abs_Min', 'pH_Abs_Max',
            'temps_pousse']
@@ -153,7 +160,7 @@ def main():
     #new['Temp_score'].hist()
     new['Total_score'].hist()
     plt.show()
-    new.to_csv('total_score_orge_H3_2_6.csv')
+    #new.to_csv('total_score_orge_H3_2_6.csv')
 
 
 if __name__ == "__main__":
