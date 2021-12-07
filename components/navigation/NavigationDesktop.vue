@@ -65,7 +65,7 @@
               <v-slider
                 v-model="payload.previsionYear"
                 :tick-labels="itemsDates"
-                :max="3"
+                :max="4"
                 step="1"
                 ticks="always"
                 :tick-size="itemsDates.length"
@@ -97,7 +97,7 @@
 </template>
 <script>
 import NavigationMixin from '~/mixins/Navigation'
-import InputAddress from '~/components/InputtAddress'
+import InputAddress from '~/components/inputs/InputAddress'
 
 export default {
   name: "NavigationDesktop",

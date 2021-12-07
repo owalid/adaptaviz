@@ -126,6 +126,9 @@ export default {
     extractCSS: true,
     standalone: true,
     ignoreOrder: false,
+    filenames: {
+      chunk: ({ isDev }) => (isDev ? '[name].js' : '[id].[contenthash].js')
+    },
     html: {
       minify: {
         collapseBooleanAttributes: true,
