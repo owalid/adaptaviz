@@ -22,7 +22,11 @@ The decision maker will be able to know if he will be able to maintain his crops
 
 
 [Score calculations algorithms](https://github.com/owalid/adaptaviz/tree/main/score)
+
+
 [Data used for the scores calculations](https://github.com/owalid/adaptaviz/tree/main/score/data_ref)
+
+
 [Data used in the website](https://github.com/owalid/adaptaviz/tree/main/static/data)
 
 ## Build Setup
