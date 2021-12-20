@@ -5,6 +5,7 @@
         <leaflet-map
           v-if="regions"
           :geojson="regions"
+          :anomaly="anomaly"
           :impact-temp="impactTemp"
           @updateSelectedType="onSelectedTypeUpdated"
         />

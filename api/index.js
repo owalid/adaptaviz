@@ -6,7 +6,8 @@ import cors from 'cors'
 import smallRegions from '../static/data/small-regions'
 import scoresWithAnomaly1 from '../static/data/scores-with-anomaly-1'
 import scoresWithAnomaly2 from '../static/data/scores-with-anomaly-2'
-// import scoresWithoutAnomaly from '../static/data/scores-without-anomaly'
+import scoresWithoutAnomaly1 from '../static/data/scores-without-anomaly-1'
+import scoresWithoutAnomaly2 from '../static/data/scores-without-anomaly-2'
 
 // Create express instance
 const app = express()
@@ -17,10 +18,12 @@ app.use(express.json());
 app.use(helmet())
 
 app.post('/get-geojson', (req, res) => {
-  const {scenario, horizon, specie, scoreType} = req.body
+  const {scenario, horizon, specie, scoreType, anomalie} = req.body
 
   const smallRegionsClone = cloneDeep(smallRegions)
-  const scoresClone = [...scoresWithAnomaly1, ...scoresWithAnomaly2]
+  const scoresClone = (anomalie)
+      ? [...scoresWithAnomaly1, ...scoresWithAnomaly2]
+      : [...scoresWithoutAnomaly1 , ...scoresWithoutAnomaly2]
   scoresClone.forEach(scoreElmt => {
     if (scoreElmt['Scenario'] === scenario
         && scoreElmt['Horizon'] === horizon

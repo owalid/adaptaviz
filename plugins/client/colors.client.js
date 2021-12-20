@@ -33,7 +33,8 @@ export default (context, inject) => {
         value > 0.3 ? '#FBD521' :
         value > 0.2 ? '#F4811F' :
         value > 0.1 ? '#F0340A' :
-        '#BC2505' ;
+        value > 0 ? '#BC2505' 
+        : '#800000';
   }
   inject('colors', { generateAnomalyColor, generateColorNoAnomaly });
 }
