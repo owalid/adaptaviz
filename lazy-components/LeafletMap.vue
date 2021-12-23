@@ -59,15 +59,27 @@
               </v-alert>
             </v-row>
         </l-control>
+        <l-control v-if="currentItem" position="topright">
+          <v-card elevation="10">
+            <v-card-title>
+              <h5>{{ currentItem.properties.nom }}</h5>
+            </v-card-title>
+            <v-card-text>
+              <p>Code pra: {{ currentItem.properties.code_pra }}</p>
+              <p>Score: {{ currentItem.score }}</p>
+            </v-card-text>
+          </v-card>
+        </l-control>
         <l-control position="bottomright">
           <v-card elevation="10">
-            <v-row v-for="(grade, id_grade) in grades" :key="id_grade" no-gutters>
+            <v-row v-for="(grade, id_grade) in grades" :key="id_grade" no-gutters :align="($vuetify.breakpoint.mdAndUp) ? 'center' : 'baseline'">
               <v-col>
                 <v-sheet
                   :color="(anomaly)
                             ? $colors.generateAnomalyColor(grade)
                             : $colors.generateColorNoAnomaly(grade)"
-                  width="50px" height="50px"
+                  width="3vw"
+                  height="3vw"
                 />
               </v-col>
               <v-col class="pa-2" align="center" justify="center">
@@ -82,6 +94,23 @@
 <script>
 import NavigationMixin from '~/mixins/Navigation'
 import InputAddress from '~/components/inputs/InputAddress'
+
+
+
+function mouseover({ target }) {
+  // const geojsonItem = target.feature.properties
+  const { feature } = target
+
+  const item = this.geojson.features.find(x => x.properties.code_pra === feature.properties.code_pra)
+
+  if (!item) {
+    this.currentItem = null
+    return;
+  }
+  this.currentItem = { score: item.score || 0, properties: item.properties }
+}
+
+function mouseout({ target }) { this.currentItem = null }
 
 /*
 This component will send the data to the parent (the index.vue page) which can send the changes and refresh the page
@@ -106,6 +135,7 @@ export default  {
   },
    data () {
     return {
+      currentItem: null,
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       zoom: 6.25,
       scoresType: {
@@ -144,7 +174,13 @@ export default  {
                           ? this.$colors.generateAnomalyColor(feature.score)
                           : this.$colors.generateColorNoAnomaly(feature.score)
             }
-          }
+          },
+        onEachFeature: (feature, layer) => {
+          layer.on({
+            mouseout: mouseout.bind(this),
+            mouseover: mouseover.bind(this)
+          })
+          }  
         }
       },
     grades() {

@@ -18,10 +18,10 @@ app.use(express.json());
 app.use(helmet())
 
 app.post('/get-geojson', (req, res) => {
-  const {scenario, horizon, specie, scoreType, anomalie} = req.body
+  const {scenario, horizon, specie, scoreType, anomaly} = req.body
 
   const smallRegionsClone = cloneDeep(smallRegions)
-  const scoresClone = (anomalie)
+  const scoresClone = (anomaly)
       ? [...scoresWithAnomaly1, ...scoresWithAnomaly2]
       : [...scoresWithoutAnomaly1 , ...scoresWithoutAnomaly2]
   scoresClone.forEach(scoreElmt => {
