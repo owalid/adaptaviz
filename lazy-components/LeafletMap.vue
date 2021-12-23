@@ -1,6 +1,7 @@
 <template>
     <client-only>
       <l-map
+        ref="map"
         :style="($vuetify.breakpoint.lgAndUp) ? 'height: 97vh; width:100%' : 'height: 90vh; width:100vw'"
         :zoom="zoom"
         :options="mapOptions"
@@ -23,11 +24,11 @@
           <v-row>
             <v-btn
               class="ma-2"
-              :outlined="!scoresType.scoreHydro"
+              :outlined="scoresType.scoreHydro"
               small
               color="black"
               dark
-              :plain="!scoresType.scoreHydro"
+              :plain="scoresType.scoreHydro"
               @click="updateScoreType('scoreHydro')"
             >
               <v-icon small class="mr-2">fa-cloud-rain</v-icon>
@@ -35,11 +36,11 @@
             </v-btn>
             <v-btn
               class="ma-2"
-              :outlined="!scoresType.scoreTemp"
+              :outlined="scoresType.scoreTemp"
               small
               color="black"
               dark
-              :plain="!scoresType.scoreTemp"
+              :plain="scoresType.scoreTemp"
               @click="updateScoreType('scoreTemp')"
             >
               <v-icon small class="mr-2">fa-sun</v-icon>
@@ -58,12 +59,59 @@
               </v-alert>
             </v-row>
         </l-control>
+        <l-control v-if="currentItem" position="topright">
+          <v-card elevation="10">
+            <v-card-title>
+              <h5>{{ currentItem.properties.nom }}</h5>
+            </v-card-title>
+            <v-card-text>
+              <p>Code pra: {{ currentItem.properties.code_pra }}</p>
+              <p>Score: {{ currentItem.score }}</p>
+            </v-card-text>
+          </v-card>
+        </l-control>
+        <l-control position="bottomright">
+          <v-card elevation="10">
+            <v-row v-for="(grade, id_grade) in grades" :key="id_grade" no-gutters :align="($vuetify.breakpoint.mdAndUp) ? 'center' : 'baseline'">
+              <v-col>
+                <v-sheet
+                  :color="(anomaly)
+                            ? $colors.generateAnomalyColor(grade)
+                            : $colors.generateColorNoAnomaly(grade)"
+                  width="3vw"
+                  height="3vw"
+                />
+              </v-col>
+              <v-col class="pa-2" align="center" justify="center">
+                <p>{{ grade }}</p>
+              </v-col>
+            </v-row>
+          </v-card>
+        </l-control>
       </l-map>
     </client-only>
 </template>
 <script>
 import NavigationMixin from '~/mixins/Navigation'
 import InputAddress from '~/components/inputs/InputAddress'
+
+
+
+function mouseover({ target }) {
+  // const geojsonItem = target.feature.properties
+  const { feature } = target
+
+  const item = this.geojson.features.find(x => x.properties.code_pra === feature.properties.code_pra)
+
+  if (!item) {
+    this.currentItem = null
+    return;
+  }
+  this.currentItem = { score: item.score || 0, properties: item.properties }
+}
+
+function mouseout({ target }) { this.currentItem = null }
+
 /*
 This component will send the data to the parent (the index.vue page) which can send the changes and refresh the page
 */
@@ -79,10 +127,15 @@ export default  {
     impactTemp: {
       type: Object,
       required: true
+    },
+    anomaly: {
+      type: Boolean,
+      required: true
     }
   },
    data () {
     return {
+      currentItem: null,
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       zoom: 6.25,
       scoresType: {
@@ -95,7 +148,7 @@ export default  {
         zoomSnap: 0.5,
         zoomControl: false
       },
-      address: "",
+      address: ""
     };
   },
   fetch() {
@@ -116,12 +169,25 @@ export default  {
               opacity: 1,
               color: 'white',
               dashArray: '3',
-              fillOpacity: 0.8,
-              fillColor: this.$colors.generateAnomalyColor(feature.score)
+              fillOpacity: 0.7,
+              fillColor: (this.anomaly)
+                          ? this.$colors.generateAnomalyColor(feature.score)
+                          : this.$colors.generateColorNoAnomaly(feature.score)
             }
-          }
+          },
+        onEachFeature: (feature, layer) => {
+          layer.on({
+            mouseout: mouseout.bind(this),
+            mouseover: mouseover.bind(this)
+          })
+          }  
         }
       },
+    grades() {
+      return (this.anomaly)
+        ? [-0.35, -0.3, -0.25, -0.2, -0.1, 0, 0.1, 0.2, 0.3, 0.4, 0.5]
+        : [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0]
+    },
     impactTempResult() {
       const quarter = "fa-thermometer-quarter";
       const half = "fa-thermometer-half";

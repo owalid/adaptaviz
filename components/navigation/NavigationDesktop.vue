@@ -65,7 +65,7 @@
               <v-slider
                 v-model="payload.previsionYear"
                 :tick-labels="itemsDates"
-                :max="4"
+                :max="3"
                 step="1"
                 ticks="always"
                 :tick-size="itemsDates.length"
