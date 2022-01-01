@@ -1,5 +1,7 @@
 # Adaptaviz
 
+<img width="1920" alt="Capture d’écran 2022-01-01 à 19 56 03" src="https://user-images.githubusercontent.com/28403617/147858065-bb7f4138-46f2-4a72-8ac4-e65be6c478fd.png">
+
 ## [www.adaptaviz.fr](https://www.adaptaviz.fr)
 
 ### 🇫🇷
