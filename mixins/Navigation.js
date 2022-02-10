@@ -34,7 +34,8 @@ export default {
       itemsDates: ['Actuel', '2050', '2075', '2100'],
       miniVariant: false,
       right: true,
-      rightDrawer: false
+      rightDrawer: false,
+      fetchingValues: true
     }
   },
   computed: {
@@ -65,5 +66,13 @@ export default {
     saveYear() {
       this.$refs.picker.activePicker = 'YEAR'
     }
+  },
+  mounted() {
+    this.$nuxt.$on('get-geojson', (fetchingValues) => {
+      this.fetchingValues = fetchingValues
+    })
+  },
+  beforeDestroy() {
+    this.$nuxt.$off('get-geojson')
   },
 }

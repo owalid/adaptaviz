@@ -26,7 +26,7 @@
         </v-row>
         <v-container v-if="!miniVariant">
           <v-row>
-            <input-address />
+            <input-address :readonly="fetchingValues" />
           </v-row>
           <v-row class="justify-space-between">
             <h2>Scenario RCP</h2>
@@ -41,6 +41,7 @@
                 ticks="always"
                 :tick-size="ticksScenarios.length"
                 class="mb-2"
+                :readonly="fetchingValues"
               ></v-slider>
               <v-row>
                 <span class="small-text">Scénarion d'émission projectif par le GIEC</span>
@@ -53,6 +54,7 @@
                 v-model="payload.anomaly"
                 x-small
                 label="Anomalie"
+                :readonly="fetchingValues"
               >
               </v-switch>
             </v-col>
@@ -70,21 +72,24 @@
                 ticks="always"
                 :tick-size="itemsDates.length"
                 class="mb-2"
+                :readonly="fetchingValues"
               ></v-slider>
             </v-col>
           </v-row>
           <v-row>
             <h2 class="mt-3">Cultures</h2>
           </v-row>
-          <v-row align="start">
-            <v-list>
+          <v-row>
+            <v-list width="100%" shaped :disabled="fetchingValues">
               <v-list-item-group
                 v-model="payload.specie"
                 color="primary"
+                width="100%"
               >
                 <v-list-item
                   v-for="(specie, idSpecie) in species"
                   :key="idSpecie"
+                  width="100%"
                 >
                   <v-list-item-title>{{ specie }}</v-list-item-title>
                 </v-list-item>
