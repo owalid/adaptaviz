@@ -11,13 +11,13 @@
             @updateSelectedType="onSelectedTypeUpdated"
           />
         </v-row>
-      <v-overlay v-if="is_loading" :v-model="is_loading" :opacity="0.8" :z-index="1000">
-         <v-progress-circular
+        <v-overlay v-if="is_loading" :v-model="is_loading" :opacity="0.8" :z-index="1000">
+          <v-progress-circular
             indeterminate
             color="white"
             size="64"
           ></v-progress-circular>
-      </v-overlay>
+        </v-overlay>
       </v-container>
     </div>
   </client-only>
