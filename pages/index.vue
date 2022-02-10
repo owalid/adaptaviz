@@ -1,16 +1,25 @@
 <template>
   <client-only>
-    <v-container fluid>
-      <v-row fill-height align-center justify-center>
-        <leaflet-map
-          v-if="regions"
-          :geojson="regions"
-          :anomaly="anomaly"
-          :impact-temp="impactTemp"
-          @updateSelectedType="onSelectedTypeUpdated"
-        />
-      </v-row>
-    </v-container>
+    <div>
+      <v-container fluid>
+        <v-row fill-height align-center justify-center>
+          <leaflet-map
+            v-if="regions"
+            :geojson="regions"
+            :anomaly="anomaly"
+            :impact-temp="impactTemp"
+            @updateSelectedType="onSelectedTypeUpdated"
+          />
+        </v-row>
+        <v-overlay v-if="is_loading" :v-model="is_loading" :opacity="0.8" :z-index="1000">
+          <v-progress-circular
+            indeterminate
+            color="white"
+            size="64"
+          ></v-progress-circular>
+        </v-overlay>
+      </v-container>
+    </div>
   </client-only>
 </template>
 <script>
@@ -40,12 +49,17 @@ export default {
       },
       cultivationType: null,
       interval: null,
+      is_loading: true
     }
   },
   async fetch() {
+    this.$nuxt.$emit('get-geojson', true)
+    this.is_loading = true
     const res = await this.$axios.$post('/get-geojson', this.payload)
-    console.log("res", res)
     this.regions = cloneDeep(res.data)
+    this.is_loading = false
+    // eslint-disable-next-line nuxt/no-timing-in-fetch-data
+    setTimeout(() => { this.$nuxt.$emit('get-geojson', false)}, 200)
   },
   computed: {
     impactTemp() {
@@ -107,7 +121,7 @@ export default {
         }, 500)
       }
     },
-    async  onSelectedTypeUpdated(selectedType) { // todo call updateMap function
+    async onSelectedTypeUpdated(selectedType) { // todo call updateMap function
       this.selectedType = selectedType
       await this.$fetch()
     }

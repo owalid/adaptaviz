@@ -8,7 +8,8 @@ import Vuetify, {
   VApp,
   VAppBar,
   VContainer,
-  VProgressCircular
+  VProgressCircular,
+  VOverlay
 } from 'vuetify/lib'
 import '@fortawesome/fontawesome-free/css/all.css' // Ensure you are using css-loader
 
@@ -23,6 +24,7 @@ Vue.use(Vuetify, {
     VSelect,
     VNavigationDrawer,
     VSlider,
+    VOverlay
   },
   icons: {
     iconfont: 'fa',

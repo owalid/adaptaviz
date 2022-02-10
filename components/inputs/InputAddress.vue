@@ -9,16 +9,17 @@
     small
     dense
     light
+    v-bind="$attrs"
     @keyup.enter="getAddress"
   >
     <template #prepend-inner>
       <v-icon small class="mr-2">fa-search</v-icon>
     </template>
     <template #append>
-      <v-btn small icon @click="locateOnBrowser">
+      <v-btn v-bind="$attrs" small icon @click="locateOnBrowser">
         <v-icon small class="mr-2">fa-location-arrow</v-icon>
       </v-btn>
-      <v-btn small icon :disabled="!address" @click="getAddress">
+      <v-btn v-bind="$attrs" small icon :disabled="!address" @click="getAddress">
         <v-icon small class="mr-2">fa-arrow-right</v-icon>
       </v-btn>
     </template>
