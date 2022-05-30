@@ -1,6 +1,12 @@
-# Adaptaviz
 
-<img width="1920" alt="Capture d’écran 2022-01-01 à 19 56 03" src="https://user-images.githubusercontent.com/28403617/147858065-bb7f4138-46f2-4a72-8ac4-e65be6c478fd.png">
+<!-- 
+![adaptaviz_dark](https://user-images.githubusercontent.com/28403617/171047547-e0821e7a-efb1-4744-9720-91d5126e8154.svg)
+![adaptaviz_light](https://user-images.githubusercontent.com/28403617/171047548-21fc1947-8320-4a71-9968-6f4da66a2286.svg) -->
+
+<div align="center">
+<img width="450px" height="450px" src="https://user-images.githubusercontent.com/28403617/171047548-21fc1947-8320-4a71-9968-6f4da66a2286.svg#gh-light-mode-only">
+<img width="450px" height="450px" src="https://user-images.githubusercontent.com/28403617/171047547-e0821e7a-efb1-4744-9720-91d5126e8154.svg#gh-dark-mode-only">
+</div>
 
 ## [www.adaptaviz.fr](https://www.adaptaviz.fr)
 
@@ -37,6 +43,8 @@ The decision maker will be able to know if he will be able to maintain his crops
 
 
 [Data used in the website](https://github.com/owalid/adaptaviz/tree/main/static/data)
+
+<img width="1920" alt="Capture d’écran 2022-01-01 à 19 56 03" src="https://user-images.githubusercontent.com/28403617/147858065-bb7f4138-46f2-4a72-8ac4-e65be6c478fd.png">
 
 ## Build Setup
 
