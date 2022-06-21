@@ -10,8 +10,11 @@ export default {
         scenario: '0',
         previsionYear: '0',
         specie: 0,
-        anomaly: true
+        anomaly: true,
+        scoreType: 'Score_Tot'
       },
+      scoreHydro: true,
+      scoreTemp: true,
       ticksScenarios: ['2.6', '4.5', '8.5'],
       species: [
         "Lavande",
@@ -53,16 +56,37 @@ export default {
     payload: {
       handler(newValue) {
         this.$nuxt.$emit('updatePayloadNavigation',
-                          {...newValue,
+                          {
+                            ...newValue,
                             scenario: this.currentScenario,
                             previsionYear: this.currentDate,
                             specie: this.currentSpecie
                           })
       },
       deep: true
+    },
+    scoreHydro(newValue) {
+      if (!newValue && !this.scoreTemp) {
+        this.scoreTemp = true
+      }
+      this.payload.scoreType = this.getScoreType()
+    },
+    scoreTemp(newValue) {
+      if (!newValue && !this.scoreHydro) {
+        this.scoreHydro = true
+      }
+      this.payload.scoreType = this.getScoreType()
     }
   },
   methods: {
+    getScoreType() {
+      if (this.scoreHydro && this.scoreTemp) {
+        return  'Score_Tot'
+      } else if (this.scoreHydro) {
+        return 'Score_T'
+      }
+      return 'Score_P'
+    },
     saveYear() {
       this.$refs.picker.activePicker = 'YEAR'
     }

@@ -54,6 +54,27 @@
               </v-list-item>
             </v-list>
           </div>
+          <div v-if="curentSheet === 'STRESS'">
+            <h2>Culture</h2>
+            <v-row class="mx-1 my-0 py-0">
+              <v-switch
+                v-model="scoreTemp"
+                x-small
+                label="Stress hydrique"
+                class="pa-0 ma-0"
+              >
+              </v-switch>
+            </v-row>
+            <v-row class="mx-1 my-0 py-0">
+              <v-switch
+                v-model="scoreHydro"
+                x-small
+                label="Stress thermique"
+                class="pa-0 ma-0"
+              >
+              </v-switch>
+            </v-row>
+          </div>
         </v-container>
       </v-sheet>
     </v-bottom-sheet>
@@ -72,6 +93,18 @@
         <v-col cols="7">
           <v-row justify="end" align="end">
               <div>
+              <v-btn
+                :small="$vuetify.breakpoint.xsOnly"
+                @click="sheet = !sheet; curentSheet='STRESS'"
+              >
+                <span>Stress</span>
+                <v-icon
+                  :small="$vuetify.breakpoint.xsOnly"
+                  class="pb-1"
+                >
+                  fa-cloud-sun-rain
+                </v-icon>
+              </v-btn>
               <v-btn
                 :small="$vuetify.breakpoint.xsOnly"
                 @click="sheet = !sheet; curentSheet='SCENARIO'"

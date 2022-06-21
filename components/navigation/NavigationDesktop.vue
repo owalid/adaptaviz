@@ -60,6 +60,29 @@
             </v-col>
           </v-row>
           <v-row>
+             <h2 class="mt-3">Stress</h2>
+          </v-row>
+          <v-row>
+            <v-row class="mx-1 mb-0">
+              <v-switch
+                v-model="scoreTemp"
+                x-small
+                label="Stress hydrique"
+                :readonly="fetchingValues"
+              >
+              </v-switch>
+            </v-row>
+            <v-row class="mx-1 mt-0">
+              <v-switch
+                v-model="scoreHydro"
+                x-small
+                label="Stress thermique"
+                :readonly="fetchingValues"
+              >
+              </v-switch>
+            </v-row>
+          </v-row>
+          <v-row>
             <h2 class="mt-3">Horizon</h2>
           </v-row>
           <v-row>
