@@ -68,14 +68,6 @@ export default {
         scenario: this.scenario
       }
     },
-    getCurrentScoreType() {
-      if (!this.selectedType.scoreHydro && !this.selectedType.scoreTemp) {
-        return  'Score_Tot'
-      } else if (this.selectedType.scoreHydro) {
-        return 'Score_T'
-      }
-      return 'Score_P'
-    },
     getCurrentHorizon() {
       if (this.previsionYear === 'Actuel') {
         return 'H0'
@@ -91,8 +83,8 @@ export default {
         scenario: `RCP${this.scenario}`,
         horizon: this.getCurrentHorizon,
         specie: this.specie,
-        scoreType: this.getCurrentScoreType,
-        anomaly: this.anomaly
+        anomaly: this.anomaly,
+        scoreType: this.scoreType
       }
     }
   },
@@ -107,6 +99,7 @@ export default {
       this.scenario = payload.scenario;
       this.anomaly = payload.anomaly
       this.specie = payload.specie
+      this.scoreType = payload.scoreType
     });
   },
   beforeDestroy() {

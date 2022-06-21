@@ -22,42 +22,16 @@
             <input-address />
           </v-row>
           <v-row>
-            <v-btn
+            <v-alert
+              :impact-temp="impactTemp"
               class="ma-2"
-              :outlined="scoresType.scoreHydro"
-              small
               color="black"
-              dark
-              :plain="scoresType.scoreHydro"
-              @click="updateScoreType('scoreHydro')"
-            >
-              <v-icon small class="mr-2">fa-cloud-rain</v-icon>
-              <span>Stress hydrique</span>
-            </v-btn>
-            <v-btn
-              class="ma-2"
-              :outlined="scoresType.scoreTemp"
               small
-              color="black"
-              dark
-              :plain="scoresType.scoreTemp"
-              @click="updateScoreType('scoreTemp')"
             >
-              <v-icon small class="mr-2">fa-sun</v-icon>
-              <span>Stress thermique</span>
-            </v-btn>
+              <v-icon small class="mr-2">{{impactTempResult.icon}}</v-icon>
+              <span>{{impactTempResult.res}}</span>
+            </v-alert>
           </v-row>
-            <v-row>
-              <v-alert
-                :impact-temp="impactTemp"
-                class="ma-2"
-                color="black"
-                small
-              >
-                <v-icon small class="mr-2">{{impactTempResult.icon}}</v-icon>
-                <span>{{impactTempResult.res}}</span>
-              </v-alert>
-            </v-row>
         </l-control>
         <l-control v-if="currentItem" position="topright">
           <v-card elevation="10">
@@ -138,10 +112,6 @@ export default  {
       currentItem: null,
       url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
       zoom: 6.25,
-      scoresType: {
-        scoreHydro: false,
-        scoreTemp: false,
-      },
       center: [46.5, 2.5],
       currentCenter: null,
       mapOptions: {
@@ -236,33 +206,8 @@ export default  {
        return { icon : quarter, res : "1.6°C" }
     },
   },
-  watch: {
-    scoresType: {
-      handler(newValue) {
-        this.$emit('updateSelectedType', newValue)
-      },
-      deep: true
-    }
-  },
   beforeDestroy() {
     this.$nuxt.$off('updateCenterMap')
-  },
-  methods: {
-    updateScoreType(key) {
-      if (key === 'scoreHydro' && !this.scoresType.scoreHydro) {
-        this.scoresType.scoreHydro = true
-        if (this.scoresType.scoreTemp) {
-          this.scoresType.scoreTemp = false
-        }
-      } else if (key === 'scoreTemp' && !this.scoresType.scoreTemp) {
-        this.scoresType.scoreTemp = true
-        if (this.scoresType.scoreHydro) {
-          this.scoresType.scoreHydro = false
-        }
-      } else {
-        this.scoresType[key] = !this.scoresType[key]
-      }
-    }
   }
 }
 </script>
