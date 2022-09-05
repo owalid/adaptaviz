@@ -2,7 +2,7 @@
   <div>
     <v-bottom-sheet v-model="sheet" class="z-index-1000">
       <v-sheet max-height="50vh" class="overflow-scroll">
-        <v-container  fluid>
+        <v-container fluid>
           <div v-if="curentSheet === 'SCENARIO'" class="mt-2">
             <v-row>
               <h2 class="ma-2">Scénarios</h2>
@@ -34,7 +34,7 @@
                 <v-slider
                   v-model="payload.scenario"
                   :tick-labels="ticksScenarios"
-                  :max="3"
+                  :max="2"
                   step="1"
                   ticks="always"
                   :tick-size="ticksScenarios.length"
@@ -45,13 +45,19 @@
           <div v-if="curentSheet === 'CULTIVATION'" class="overflow-scroll">
             <h2>Culture</h2>
             <v-list>
-              <v-list-item
-                v-for="(specie, idSpecie) in species"
-                :key="idSpecie"
-                @click="sheet = false; payload.specie = specie"
+              <v-list-item-group
+                v-model="payload.specie"
+                color="primary"
+                width="100%"
               >
-                <v-list-item-title>{{ specie }}</v-list-item-title>
-              </v-list-item>
+                <v-list-item
+                  v-for="(specie, idSpecie) in species"
+                  :key="idSpecie"
+                  @click="updateSpecie(specie)"
+                >
+                  <v-list-item-title>{{ specie }}</v-list-item-title>
+                </v-list-item>
+              </v-list-item-group>
             </v-list>
           </div>
           <div v-if="curentSheet === 'STRESS'">
@@ -78,7 +84,7 @@
         </v-container>
       </v-sheet>
     </v-bottom-sheet>
-  <v-footer dense fixed inset>
+  <v-footer dense fixed inset app>
     <v-bottom-navigation>
       <v-row  justify="center" align="center">
         <v-col cols="1"><v-btn href="/about">
@@ -94,36 +100,42 @@
           <v-row justify="end" align="end">
               <div>
               <v-btn
-                :small="$vuetify.breakpoint.xsOnly"
+                :x-small="$vuetify.breakpoint.xsOnly"
+                :small="$vuetify.breakpoint.smOnly"
                 @click="sheet = !sheet; curentSheet='STRESS'"
               >
                 <span>Stress</span>
                 <v-icon
-                  :small="$vuetify.breakpoint.xsOnly"
+                  :x-small="$vuetify.breakpoint.xsOnly"
+                  :small="$vuetify.breakpoint.smOnly"
                   class="pb-1"
                 >
                   fa-cloud-sun-rain
                 </v-icon>
               </v-btn>
               <v-btn
-                :small="$vuetify.breakpoint.xsOnly"
+                :x-small="$vuetify.breakpoint.xsOnly"
+                :small="$vuetify.breakpoint.smOnly"
                 @click="sheet = !sheet; curentSheet='SCENARIO'"
               >
                 <span>Scénarios</span>
                 <v-icon
-                  :small="$vuetify.breakpoint.xsOnly"
+                  :x-small="$vuetify.breakpoint.xsOnly"
+                  :small="$vuetify.breakpoint.smOnly"
                   class="pb-1"
                 >
                   fa-clock
                 </v-icon>
               </v-btn>
               <v-btn
-                :small="$vuetify.breakpoint.xsOnly"
+                :x-small="$vuetify.breakpoint.xsOnly"
+                :small="$vuetify.breakpoint.smOnly"
                 @click="sheet = !sheet; curentSheet='CULTIVATION'"
               >
                 <span>Culture</span>
                 <v-icon
-                  :small="$vuetify.breakpoint.xsOnly"
+                  :x-small="$vuetify.breakpoint.xsOnly"
+                  :small="$vuetify.breakpoint.smOnly"
                   class="pb-1"
                 >
                   fa-seedling
@@ -147,6 +159,12 @@ export default {
     return {
       curentSheet: '',
       sheet: false
+    }
+  },
+  methods: {
+    updateSpecie(specie) {
+      this.sheet = false;
+      this.payload.specie = specie
     }
   }
 }
