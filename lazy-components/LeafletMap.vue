@@ -46,18 +46,17 @@
         </l-control>
         <l-control position="bottomright">
           <v-card elevation="10">
-            <v-row v-for="(grade, id_grade) in grades" :key="id_grade" no-gutters :align="($vuetify.breakpoint.mdAndUp) ? 'center' : 'baseline'">
+              <v-row v-for="(grade, id_grade) in grades" :key="id_grade" no-gutters align="center">
               <v-col>
                 <v-sheet
                   :color="(anomaly)
                             ? $colors.generateAnomalyColor(grade)
                             : $colors.generateColorNoAnomaly(grade)"
-                  width="3vw"
-                  height="3vw"
+                  class="sheet-grade"
                 />
               </v-col>
-              <v-col class="pa-2" align="center" justify="center">
-                <p>{{ grade }}</p>
+              <v-col class="pr-1" align="center">
+                <p class="font-size-grade ma-0">{{ grade }}</p>
               </v-col>
             </v-row>
           </v-card>
@@ -211,3 +210,76 @@ export default  {
   }
 }
 </script>
+<style lang="scss" scoped>
+.sheet-grade {
+  width: 25px;
+  height: 25px;
+}
+
+.font-size-grade {
+  font-size: 7px;
+  align-self: center;
+  justify-content: center;
+}
+
+@media only screen and (min-width: 426px) and (max-width: 768px) {
+  .sheet-grade {
+    width: 30px;
+    height: 30px;
+  }
+  .font-size-grade {
+    font-size: 9px;
+  }
+}
+
+@media (min-width: 768px) {
+  .sheet-grade {
+    width: 40px;
+    height: 40px;
+  }
+  .font-size-grade {
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 992px) {
+  .sheet-grade {
+    width: 50px;
+    height: 50px;
+  }
+  .font-size-grade {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .sheet-grade {
+    width: 50px;
+    height: 50px;
+  }
+  .font-size-grade {
+    font-size: 14px;
+  }
+}
+
+@media (min-width: 1500px) {
+  .sheet-grade {
+    width: 60px;
+    height: 60px;
+  }
+
+  .font-size-grade {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .sheet-grade {
+    width: 70px;
+    height: 70px;
+  }
+  .font-size-grade {
+    font-size: 16px;
+  }
+}
+</style>

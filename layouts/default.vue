@@ -8,7 +8,7 @@
     </v-main>
     <navigation-mobile v-if="$vuetify.breakpoint.mdAndDown" />
     <v-footer v-if="$vuetify.breakpoint.lgAndUp" app class="z-index-top">
-      <v-row justify="center">
+      <v-row justify="center" align="center">
         <v-btn text link plain href="https://github.com/owalid/adaptaviz" target="_blank" style="text-decoration: none;">
           <v-row align="baseline">
             <p>
