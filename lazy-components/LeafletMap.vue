@@ -252,16 +252,6 @@ export default  {
   }
 }
 
-@media (min-width: 1200px) {
-  .sheet-grade {
-    width: 50px;
-    height: 50px;
-  }
-  .font-size-grade {
-    font-size: 14px;
-  }
-}
-
 @media (min-width: 1500px) {
   .sheet-grade {
     width: 60px;
