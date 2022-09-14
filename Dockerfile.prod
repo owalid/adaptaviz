@@ -10,6 +10,8 @@ WORKDIR $home
 
 COPY --chown=$user . /home/app
 
+RUN rm -rf /home/app/score
+
 ENV HOST 0.0.0.0
 ENV NUXT_HOST 0.0.0.0
 ENV NODE_OPTIONS --max-old-space-size=5120
@@ -20,7 +22,5 @@ RUN npm install
 RUN npm run build
 
 USER $user
-
-EXPOSE 80
 
 CMD ["npm", "start"]
