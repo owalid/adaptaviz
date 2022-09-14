@@ -1,5 +1,6 @@
 FROM node:17.2-alpine
 
+RUN apk update
 RUN mkdir -p /home/app
 
 ARG user=app
@@ -14,7 +15,7 @@ RUN rm -rf /home/app/score
 
 ENV HOST 0.0.0.0
 ENV NUXT_HOST 0.0.0.0
-ENV NODE_OPTIONS --max-old-space-size=5120
+ENV NODE_OPTIONS --max-old-space-size=5120  --openssl-legacy-provider
 ENV NPM_CONFIG_PRODUCTION false
 ENV NUXT_BASE_API_URL https://adaptaviz.herokuapp.com/api
 
