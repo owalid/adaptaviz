@@ -1,0 +1,26 @@
+FROM node:17.2-alpine
+
+RUN mkdir -p /home/app
+
+ARG user=app
+ARG home=/home/$user
+RUN addgroup -S docker
+RUN adduser --disabled-password --gecos "" --home $home --ingroup docker $user
+WORKDIR $home
+
+COPY --chown=$user . /home/app
+
+ENV HOST 0.0.0.0
+ENV NUXT_HOST 0.0.0.0
+ENV NODE_OPTIONS --max-old-space-size=5120
+ENV NPM_CONFIG_PRODUCTION false
+ENV NUXT_BASE_API_URL https://adaptaviz.herokuapp.com/api
+
+RUN npm install
+RUN npm run build
+
+USER $user
+
+EXPOSE 80
+
+CMD ["npm", "start"]
