@@ -1,0 +1,28 @@
+FROM node:17.2-alpine
+
+RUN apk update
+
+ARG user=app_user
+ARG home=/home/$user
+RUN mkdir -p $home
+RUN addgroup -S app_group && adduser -S app_user -G app_group
+WORKDIR $home
+
+USER $user
+
+COPY --chown=$user . $home
+
+RUN rm -rf /home/app/score
+
+ENV HOST 0.0.0.0
+ENV NUXT_HOST 0.0.0.0
+ENV NODE_OPTIONS --max-old-space-size=5120 --openssl-legacy-provider
+ENV NPM_CONFIG_PRODUCTION false
+ENV NUXT_BASE_API_URL https://www.adaptaviz.fr/api
+
+RUN npm install
+RUN npm run build
+
+USER $user
+
+CMD ["npm", "start"]
