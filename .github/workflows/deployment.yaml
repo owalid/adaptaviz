@@ -1,0 +1,28 @@
+name: Deploy api to scaleway.
+
+
+# Run workflow on every push to master branch.
+on:
+  push:
+    branches: [main]
+
+# Your workflows jobs.
+jobs:
+  deploy_scw:
+    runs-on: ubuntu-latest
+    steps:
+      # Check-out your repository.
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Login to scaleway
+        run: docker login rg.fr-par.scw.cloud/my-services -u nologin --password-stdin <<< ${{ secrets.SCW_SECRET_KEY }}
+
+      - name: Docker build
+        run: docker build -t adaptaviz-fr:latest -f Dockerfile.prod .
+
+      - name: Docker tag
+        run: docker tag adaptaviz-fr:latest rg.fr-par.scw.cloud/my-services/adaptaviz-fr:latest
+
+      - name: Docker push in namespace
+        run: docker push rg.fr-par.scw.cloud/my-services/adaptaviz-fr:latest
