@@ -3,14 +3,16 @@ FROM node:17.2-alpine
 RUN apk update
 
 ARG user=app_user
-ARG home=/home/$user
-RUN mkdir -p $home
-RUN addgroup -S app_group && adduser -S app_user -G app_group
-WORKDIR $home
+ARG home=/home/app_user
+RUN mkdir -p /home/app_user && \
+   addgroup -S app_group && \
+   adduser -S app_user -G app_group
 
-USER $user
+WORKDIR /home/app_user
 
-COPY --chown=$user . $home
+USER app_user
+
+COPY --chown=app_user . /home/app_user
 
 RUN rm -rf /home/app/score
 
@@ -18,11 +20,11 @@ ENV HOST 0.0.0.0
 ENV NUXT_HOST 0.0.0.0
 ENV NODE_OPTIONS --max-old-space-size=5120 --openssl-legacy-provider
 ENV NPM_CONFIG_PRODUCTION false
-ENV NUXT_BASE_API_URL https://www.adaptaviz.fr/api
+ENV NUXT_BASE_API_URL https://adaptaviz.fr/api
 
-RUN npm install
-RUN npm run build
-
-USER $user
+RUN npm install && \
+    npm run build && \
+    npm prune --production && \
+    npm cache clean --force
 
 CMD ["npm", "start"]

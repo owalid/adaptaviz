@@ -1,4 +1,4 @@
-name: Deploy api to scaleway.
+name: Deploy to scaleway.
 
 
 # Run workflow on every push to master branch.
@@ -6,23 +6,35 @@ on:
   push:
     branches: [main]
 
-# Your workflows jobs.
 jobs:
   deploy_scw:
     runs-on: ubuntu-latest
     steps:
-      # Check-out your repository.
       - name: Checkout
         uses: actions/checkout@v2
-      
-      - name: Login to scaleway
-        run: docker login rg.fr-par.scw.cloud/my-services -u nologin --password-stdin <<< ${{ secrets.SCW_SECRET_KEY }}
 
-      - name: Docker build
-        run: docker build -t adaptaviz-fr:latest -f Dockerfile.prod .
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: 'arm64'
 
-      - name: Docker tag
-        run: docker tag adaptaviz-fr:latest rg.fr-par.scw.cloud/my-services/adaptaviz-fr:latest
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
-      - name: Docker push in namespace
-        run: docker push rg.fr-par.scw.cloud/my-services/adaptaviz-fr:latest
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: rg.fr-par.scw.cloud/my-services
+          username: nologin
+          password: ${{ secrets.SCW_SECRET_KEY }}
+
+      # Build the images
+      - name: Build and push docker
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          file: ./Dockerfile.prod
+          tags: rg.fr-par.scw.cloud/my-services/adaptaviz-fr:latest
+          platforms: linux/arm64
+          cache-from: type=gha,mode=max
+          cache-to: type=gha,mode=max
