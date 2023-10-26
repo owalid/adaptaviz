@@ -1,6 +1,7 @@
 FROM node:17.2-alpine
 
-RUN apk update
+RUN apk update && \
+    apk add g++ make py3-pip
 
 ARG user=app_user
 ARG home=/home/app_user
