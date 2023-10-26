@@ -23,8 +23,6 @@ ENV NPM_CONFIG_PRODUCTION false
 ENV NUXT_BASE_API_URL https://adaptaviz.fr/api
 
 RUN npm install && \
-    npm run build && \
-    npm prune --production && \
-    npm cache clean --force
+    npm run build
 
 CMD ["npm", "start"]
