@@ -26,10 +26,15 @@ ENV NUXT_BASE_API_URL https://adaptaviz.fr/api
 RUN npm install && \
     npm run build && \
     npm prune --production && \
-    npm cache clean --force && \
-    apk del g++ make py3-pip && \
+    npm cache clean --force
+
+USER root
+
+RUN apk del g++ make py3-pip && \
     apk cache clean && \
     rm -rf /var/cache/apk/* && \
     rm -rf package-lock.json
+
+USER app_user
 
 CMD ["npm", "start"]
