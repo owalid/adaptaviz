@@ -31,7 +31,6 @@ RUN npm install && \
 USER root
 
 RUN apk del g++ make py3-pip && \
-    apk cache clean && \
     rm -rf /var/cache/apk/* && \
     rm -rf package-lock.json
 
