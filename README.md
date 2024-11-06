@@ -8,7 +8,7 @@
 <img width="450px" height="450px" src="https://user-images.githubusercontent.com/28403617/171047547-e0821e7a-efb1-4744-9720-91d5126e8154.svg#gh-dark-mode-only">
 </div>
 
-## [www.adaptaviz.fr](https://www.adaptaviz.fr)
+## [adaptaviz.org](https://adaptaviz.org/)
 
 ### 🇫🇷
 
